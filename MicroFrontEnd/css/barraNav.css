@@ -1,0 +1,9 @@
+#barraNavegacion{
+    height: 100px;
+    width: auto;
+    background-color: rgb(40, 40, 202);
+}
+#botonMenuInicio{
+    position: relative;
+    left: 1000;
+}

@@ -1,0 +1,41 @@
+body{
+    background-color: rgb(232, 236, 240);
+}
+#divPrincipal{
+    height: 300px;
+    width: 1000px;
+    position: relative;
+    left: 100px;
+    top: 100px; 
+    border-style: outset;
+}
+#tablaPaciente{   
+    overflow: scroll;
+    border-collapse: separate;
+    position: relative;
+    left: 50px;
+}
+tr, td, th{ 
+    border: 1.5px solid grey;
+}
+#datosPaciente{
+    width: auto;
+    height: 20px;
+}
+#botonesAgregarSesionesPaciente{
+    margin-top: 8px;
+    width: auto;
+}
+#botonAgregarConfiguracion{
+    position: relative;
+    left: 50px;
+}
+
+#botonGenerarReporte{
+    position: relative;
+    left: 148px;
+}
+#botonAgregarSesion{
+    position: relative;
+    left: 150px;
+}

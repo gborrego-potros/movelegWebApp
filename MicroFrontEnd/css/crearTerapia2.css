@@ -1,0 +1,71 @@
+body{
+    background-color: rgb(232, 236, 240);
+}
+#divPrincipal{
+    height: auto;
+    width: 1000px;
+    position: relative;
+    left: 100px;
+    top: 100px; 
+    border-style: outset;
+}
+#numeroRepeticionesTobillo {
+    position: relative;
+    left: 50px;
+}
+
+#numeroRepeticionesRodilla {
+    position: relative;
+    left: 600px;
+    bottom: 25px;
+}
+
+#porcentajeDisminucionRodillaD {
+    position: relative;
+    left: 50px;
+}
+
+#porcentajeDisminucionTobilloD {
+    position: relative;
+    left: 600px;
+    bottom: 25px;
+}
+#porcentajeDisminucionRodillaV {
+    position: relative;
+    left: 50px;
+    bottom: 5px;
+}
+
+#porcentajeDisminucionTobilloV {
+    position: relative;
+    left: 600px;
+    bottom: 25px;
+}
+#botonesCrearTerapias2{
+    height: 28px;
+    width: auto;
+    position: relative;
+    bottom: 10px;
+}
+
+#cancelarRegistroTerapiaPaciente2 {
+    background-color: rgb(98, 159, 228);
+    text-align: center;
+    color: white;
+    border: 2px solid gray;
+    margin: 4px 2px;
+    position: relative;
+    left: 785px;
+    font-size: medium;
+}
+
+#guardarRegistroTerapiaPaciente {
+    background-color: rgb(40, 40, 202);
+    text-align: center;
+    color: white;
+    border: 2px solid gray;
+    margin: 4px 2px;
+    position: relative;
+    left: 790px;
+    font-size: medium;
+}
