@@ -6,13 +6,20 @@ class Menu extends HTMLElement {
 
         this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
-        <div id="barraNavegacion">
-            <img src="logo-moveleg.PNG">      
-            <button id="botonMenuInicio">Inicio</button>
-            <button id="botonMenuTerapia">Terapia</button>
-            <button id="botonMenuSobreNostros">Sobre Nosotros</button>
-            <img src="icono-perfil.png">   
-        </div>    
+        <div id="divPrincipal">
+        <ul id="barraNavegacion">
+            <li><img src="../img/logo-moveleg.PNG" id="imagenMoveleg"></li>  
+            <div id="divBotonesMenu">
+            <li><button id="botonMenuInicio" onclick="location.href='inicio.html'">Inicio</button></li>
+
+            <li><button id="botonMenuTerapia" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Terapia
+            <span class="caret"></span></button></li>
+
+            <li><button id="botonMenuSobreNostros" onclick="location.href='sobreNosotros.html'">Sobre Nosotros</button></li>
+            </div>
+            <li><img src="../img/icono-perfil.png" id="imagenPerfil"></li>
+        </ul>   
+        </div> 
         `;
 
         this.#agregarEstilo();

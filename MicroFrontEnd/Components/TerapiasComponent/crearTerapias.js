@@ -54,7 +54,7 @@ class CrearTerapias extends HTMLElement {
 
         this.#agregarEstilo();
         const nombrePaciente = this.shadowRoot.querySelector("#eNombrePaciente");
-        this.#getPacientes(nombrePaciente);
+        this.#getPacientes();
         let fechaInicio = this.shadowRoot.querySelector('#fechaInicio');
         let fechaFin = this.shadowRoot.querySelector('#fechaFin');
         this.#enviarFechas(fechaInicio,fechaFin)
@@ -68,11 +68,11 @@ class CrearTerapias extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    #getPacientes(nombrePaciente) {
+    #getPacientes() {
         const botonBuscarPaciente = this.shadowRoot.querySelector("#buscarPacientes");
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         botonBuscarPaciente.addEventListener('click', function () {
-            fetch(this.#urlService + nombrePaciente, {
+            fetch("http://localhost:3000/api/pacientes/", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'aplication/json',
@@ -80,12 +80,12 @@ class CrearTerapias extends HTMLElement {
 
             })
                 .then((response) => response.json())
-                .then(function (data) {
-                    let pacientes = data['data'];
-                    for (let s of pacientes) {
+                .then(data => {
+                    tablaPacientes.innerHTML = ''
+                    for (let valor of data) {
                         tablaPacientes.innerHTML += `
                     <tr>
-                        <th>${nombre}</th>
+                        <th>${valor.nombre}</th>
                     </tr>
                     `
                     }

@@ -20,9 +20,13 @@ class BusquedaPacientes extends HTMLElement {
             <p></p>
             <div id="periodoPaciente">        
                 <label for="busquedaPacienteEtiqueta">Periodo:</label>
-                <button id="botonFechaInicio">Fecha Inicio</button> 
-                <button id="botonFechaFin">Fecha fin</button>
+                <p></p>
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio">
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin">
             </div>
+            <p></p>
             <div id="tablaPacientesDiv">
                 <section>
                 <table id="">
@@ -36,9 +40,7 @@ class BusquedaPacientes extends HTMLElement {
                     <td></td>
                 </tr>
                 <tbody id ="tablaPacientes">
-
                 </tbody>
-                <div id="divPaarrafoPacientes"></div>
             </table>
                 </section>
             </div>
@@ -46,6 +48,7 @@ class BusquedaPacientes extends HTMLElement {
 
         this.#agregarEstilo();
         this.#getPacientes(pacienteId);
+        //this.#getFechas(pacienteId);      
     }
 
     #agregarEstilo() {
@@ -59,40 +62,82 @@ class BusquedaPacientes extends HTMLElement {
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
         let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
-        let parrafoDatosPaciente = this.shadowRoot.querySelector('#divPaarrafoPacientes');
+        let datosPaciente;
         botonBuscarPaciente.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/pacientes/" , {
+            fetch("http://localhost:3000/api/pacientes/", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
             })
                 .then(response => response.json())
-                .then(function (data) {
-                    console.log(data);
-                    let pacientes = data.results;
-                    parrafoDatosPaciente.innerHTML =`
-                    <p>${pacientes}</p>
-                    `
-                    //let pacientes = data['data'];
-                    /*
-                    for (let s of pacientes) {
-                        tablaPacientes.innerHTML = `
-                    <tr>
-                        <td>${nombre}</td>         
-                        <td>${fechaInicioTerapia}</td>
-                        <td>${fechaFinTerapia}2</td>
-                        <td>${proximaSesion}</td>         
-                        <td>${avance}/td>
-                        <td><a>Ver más<a></td>
-                        <td>Borrar</td>
-                    </tr>
-                    `
+                .then(data => {
+                    datosPaciente = data;
+                   /* 
+                    tablaPacientes.innerHTML = ''
+                    for (let valor of data) {
+                        tablaPacientes.innerHTML += `
+                        <tr>
+                        <td>${valor.nombre}</td> 
+                        <td>${valor.fechaInicio}</td>    
+                        </tr>                  
+                    `;
+                    
                     }*/
+
+                });
+                fetch("http://localhost:3000/api/terapias/", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let contador =0;
+                    tablaPacientes.innerHTML = ''
+                    for (let valor of data) {   
+                        tablaPacientes.innerHTML += `
+                        <tr>
+                        <td>${datosPaciente[contador].nombre}</td> 
+                        <td>${valor.fechaInicio}</td>  
+                        <td>${valor.fechaFin}</td>   
+                        </tr>                  
+                    `;
+                    contador = contador+1;
+                    }
+
                 });
         })
+        
 
     }
+    /*
+    #getFechas(pacienteId){
+        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
+        botonBuscarPaciente.addEventListener('click', function () {
+        fetch("http://localhost:3000/api/terapias/" ,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data);
+            for(let valor of data){
+                tablaPacientes.innerHTML += `
+                        <tr>
+                        <td>${valor.fechaInicio}</td>  
+                        <td>${valor.fechaFin}</td>   
+                        <td>hola</td>     
+                        </tr>                  
+                    `
+            }
+            
+        })
+    })
+}*/
 }
 
 window.customElements.define("busquedapacientes-info", BusquedaPacientes);

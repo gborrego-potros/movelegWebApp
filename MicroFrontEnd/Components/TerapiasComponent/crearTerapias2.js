@@ -80,10 +80,9 @@ class CrearTerapias2 extends HTMLElement {
                 body: JSON.stringify({
                     "terapia": {
                         "idPaciente": 1,
-                        "fechaInicio": "25/03/2022",
-                        "fechaFin": "25/09/2022",
+                        "fechaInicio": "03/30/2022",
+                        "fechaFin": "09/25/2022",
                     }
-                    
                     /*
                     "numeroRepeticionesTobillo": numeroRepeticionesTobillo.value,
                     "numeroRepeticionesRodilla": numeroRepeticionesRodilla.value,

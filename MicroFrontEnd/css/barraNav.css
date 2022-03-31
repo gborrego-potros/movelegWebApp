@@ -1,9 +1,82 @@
+body{
+    background-color: rgb(232, 236, 240);
+}
+#divPrincipal{
+    height: auto;
+    width: 1000px;
+    position: relative;
+    left: 100px; 
+    border-style: outset;
+}
+ul{
+    margin:0;
+    padding:0;
+}
+    
+ul li{
+    display:block;
+    float:left;
+    padding:0 10px;
+}
+#imagenMoveleg{
+    position: relative;
+    top: 20px;
+    left: 10px;
+    height: 60px;
+    width: 100px;
+}
+#imagenPerfil{
+    position: relative;
+    top: 20px;
+    left: 430px;
+    height: 60px;
+    width: 60px;
+}
+#divBotonesMenu{
+    position: relative;
+    left: 80px;
+}
 #barraNavegacion{
     height: 100px;
     width: auto;
-    background-color: rgb(40, 40, 202);
+    background-color: #0b5394ff;
 }
 #botonMenuInicio{
+    background-color: white; 
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
     position: relative;
-    left: 1000;
+    top: 30px;
+    left: 15px;
+}
+#botonMenuTerapia{
+    background-color: white; 
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    position: relative;
+    top: 30px;
+    
+}
+#botonMenuSobreNostros{
+    background-color: white; 
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    position: relative;
+    top: 30px;
+    right: 15px;
 }

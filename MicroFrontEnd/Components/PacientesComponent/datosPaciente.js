@@ -26,12 +26,12 @@ class DatosPaciente extends HTMLElement {
                 <section>
                 <table >
                 <tr>
-                    <td>Sesion</td>
-                    <td>Núm. Repeticiones</td>
-                    <td>Repeticiones</td>
-                    <td>% Disminucion</td>
-                    <td></td>
-                    <td></td>
+                    <th>Sesion</th>
+                    <th>Núm. Repeticiones</th>
+                    <th>Repeticiones</th>
+                    <th>% Disminucion</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             
                 <tbody id ="tablaPaciente">

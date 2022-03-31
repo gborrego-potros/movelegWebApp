@@ -6,7 +6,6 @@ body{
     width: 1000px;
     position: relative;
     left: 100px;
-    top: 100px; 
     border-style: outset;
 }
 #busquedaPacienteEntrada{
@@ -26,9 +25,5 @@ body{
     position: relative;
     left: 50px;
 }
-#tablaPacientes{   
-    border-collapse: separate;
-    position: relative;
-    left: 50px;
-}
+
 tr, td, th{ border: 1.5px solid grey;}
