@@ -29,7 +29,7 @@ class BusquedaPacientes extends HTMLElement {
             <p></p>
             <div id="tablaPacientesDiv">
                 <section>
-                <table id="">
+                <table role="grid">
                 <tr>
                     <td>Paciente</td>
                     <td>Fecha Inicio</td>
@@ -54,7 +54,7 @@ class BusquedaPacientes extends HTMLElement {
     #agregarEstilo() {
         let link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
-        link.setAttribute("href", "../css/busquedaPacientes.css");
+        link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
 

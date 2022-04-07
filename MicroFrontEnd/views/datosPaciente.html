@@ -5,8 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
     <title>Moveleg</title>
     <!--Estilos CSS-->
-    <link rel="stylesheet" type="text/css" href="../css/barraNav.css" />
-    <link rel="stylesheet" type="text/css" href="../css/datosPaciente.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
 
     <!--Scripts JS-->
     <script src="../Components/PacientesComponent/datosPaciente.js"></script>
@@ -20,7 +19,14 @@
 
 <body>
     <menu-info></menu-info>
-    <datospaciente-info></datospaciente-info>
+    <main class="container">
+        <div role="document">
+            <section id="containers">
+                <datospaciente-info></datospaciente-info>
+            </section>
+        </div>
+    </main>
+
 </body>
 
 </html>

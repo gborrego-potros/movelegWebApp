@@ -11,10 +11,9 @@ class Menu extends HTMLElement {
             <li><img src="../img/logo-moveleg.PNG" id="imagenMoveleg"></li>  
             <div id="divBotonesMenu">
             <li><button id="botonMenuInicio" onclick="location.href='inicio.html'">Inicio</button></li>
-
-            <li><button id="botonMenuTerapia" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Terapia
-            <span class="caret"></span></button></li>
-
+            <li><button type="button" id="botonMenuTerapia" class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown"> Terapia <span class="caret"></span></li>
+            </button>
             <li><button id="botonMenuSobreNostros" onclick="location.href='sobreNosotros.html'">Sobre Nosotros</button></li>
             </div>
             <li><img src="../img/icono-perfil.png" id="imagenPerfil"></li>

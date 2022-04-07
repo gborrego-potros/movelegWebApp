@@ -3,17 +3,18 @@ body{
 }
 #divPrincipal{
     height: auto;
-    width: 1000px;
+    width: auto;
     position: relative;
-    left: 100px; 
-    border-style: outset;
+    left: 100px;
+    
 }
-ul{
+#barraNavegacion{
+    list-style-type: none;
     margin:0;
     padding:0;
 }
     
-ul li{
+#barraNavegacion li{
     display:block;
     float:left;
     padding:0 10px;
@@ -38,8 +39,9 @@ ul li{
 }
 #barraNavegacion{
     height: 100px;
-    width: auto;
+    width: 1000px;
     background-color: #0b5394ff;
+    border-radius: 3px; 
 }
 #botonMenuInicio{
     background-color: white; 
@@ -53,6 +55,7 @@ ul li{
     position: relative;
     top: 30px;
     left: 15px;
+    border-radius: 3px;
 }
 #botonMenuTerapia{
     background-color: white; 
@@ -65,7 +68,7 @@ ul li{
     font-size: 14px;
     position: relative;
     top: 30px;
-    
+    border-radius: 3px;
 }
 #botonMenuSobreNostros{
     background-color: white; 
@@ -79,4 +82,5 @@ ul li{
     position: relative;
     top: 30px;
     right: 15px;
+    border-radius: 3px;
 }

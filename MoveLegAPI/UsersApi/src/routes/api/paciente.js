@@ -21,6 +21,7 @@ router.get('/:nombre', async (req, res)=>{
 
 router.post('/', async(req, res) => {
     //req.body.paciente
+    console.log(req.body.paciente);
     const paciente = await Paciente.create(req.body);
     res.json(paciente);
 });

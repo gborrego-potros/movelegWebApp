@@ -56,7 +56,7 @@ class DatosPaciente extends HTMLElement {
     #agregarEstilo() {
         let link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
-        link.setAttribute("href", "../css/datosPaciente.css");
+        link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
     

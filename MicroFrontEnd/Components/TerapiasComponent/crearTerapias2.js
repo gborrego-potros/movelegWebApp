@@ -12,35 +12,52 @@ class CrearTerapias2 extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
         <div id="divPrincipal">
+        <h1 id="calibracionTitulo">Calibracion</h1>
+
+            <label for="nombrePaciente">Terapia</label>
+            <input type="text" id="nombrePaciente">
+
         <div id="angulos">
-            <h2 id="angulosTitulo">Configuración</h2>
-            <p>
-                <hr>
-            </p>
-            <div id="numeroRepeticionesTobillo">
+            <h2 id="angulosTitulo">Ángulos</h2>
+
+            <label for="anguloFlexionCadera">Ángulo flexión de cadera:</label>
+            <input type="text" id="anguloFlexionCadera">
+
+            <label for="anguloFlexionRodilla">Ángulo flexión de rodilla:</label>
+            <input type="text" id="anguloFlexionRodilla">
+
+            <label for="anguloDorsiflexion">Ángulo de dorsiflexión:</label>
+            <input type="text" id="anguloDorsiflexion">
+
+            <label for="anguloPlantarFlexion">Ángulo plantar flexión:</label>
+            <input type="text" id="anguloPlantarFlexion">
+
+        </div>
+        <div id="tobilloRodilla">
+            <h2 id="configuracionTobilloRodilla">Configuración</h2>  
+
             <label for="nRepeticionesTobillo">Núm. repeticiones tobillo:</label>
             <input type="text" id="nRepeticionesTobillo">
-            </div>
-            <div id="numeroRepeticionesRodilla">
+
+
             <label for="nRepeticionesRodilla">Núm. repeticiones rodilla:</label>
             <input type="text" id="nRepeticionesRodilla">
-            </div>
-            <div id="porcentajeDisminucionRodillaD">
+
+  
             <label for="pDisminucionRodillaD">% Disminución rodilla d:</label>
             <input type="text" id="pDisminucionRodillaD">
-            </div>
-            <div id="porcentajeDisminucionTobilloD">
+
+
             <label for="pDisminucionTobilloD">% Disminución tobillo d:</label>
             <input type="text" id="pDisminucionTobilloD">
-            </div>
-            <div id="porcentajeDisminucionRodillaV">
+
             <label for="porcentajeDisminucionRodillaV">% Disminución rodilla v:</label>
             <input type="text" id="pDisminucionRobillaV">
-            </div>
-            <div id="porcentajeDisminucionTobilloV">
+
+
             <label for="porcentajeDisminucionTobilloV">% Disminución tobillo v:</label>
             <input type="text" id="pDisminucionTobilloV">
-            </div>
+
         </div>
 
         <div id="botonesCrearTerapias2">
@@ -59,7 +76,7 @@ class CrearTerapias2 extends HTMLElement {
         let link = document.createElement("link");
         link.setAttribute("id", "pagestyle");
         link.setAttribute("rel", "stylesheet");
-        link.setAttribute("href", "../css/crearTerapia2.css");
+        link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
     #agregarTerapia() {
@@ -96,13 +113,14 @@ class CrearTerapias2 extends HTMLElement {
             })
                 .then(response => response.json())
                 .then(function (data) {
-                    alert("Se ha guardado con exito el sorteo");
+                    alert("Se ha guardado con exito la terapia");
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
         })
 
     }
+    
 }
 
 window.customElements.define("crearterapias2-info", CrearTerapias2);
