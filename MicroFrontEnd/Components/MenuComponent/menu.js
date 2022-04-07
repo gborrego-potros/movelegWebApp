@@ -30,6 +30,7 @@ class Menu extends HTMLElement {
         let link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
         link.setAttribute("href", "../css/BarraNav.css");
+        //link.setAttribute("href", "../pico-master/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
 

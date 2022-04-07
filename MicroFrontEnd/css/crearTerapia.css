@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(232, 236, 240);
+    background-color: rgb(255, 255, 255);
 }
 #divPrincipal{
     height: auto;
@@ -9,7 +9,7 @@ body{
     border-style: outset;
 }
 #nombrePaciente {
-    height: 50px;
+    height: auto;
     width: auto;
 }
 

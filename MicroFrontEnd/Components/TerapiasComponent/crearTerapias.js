@@ -1,9 +1,9 @@
 class CrearTerapias extends HTMLElement {
-    
+
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
     #urlUsers = this.#urlService + 'users/';
-    
+
     constructor() {
         super();
     }
@@ -12,7 +12,18 @@ class CrearTerapias extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
         <div id="divPrincipal">
-        <div id="nombrePaciente">
+        <div id="divAgregarPaciente">
+        <h3>Agregar Nuevo Paciente</h3>
+        <label for="name">Nombre del Paciente:</label>
+        <input type="text" id="nombrePaciente">
+        <p></p>
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimiento">
+        <p></p>
+        <button id="agregarPaciente">Agregar</button>
+        </div>
+        <div id="divNombrePaciente">
+            <h3>Buscar Paciente</h3>
             <label for="name">Nombre del Paciente:</label>
             <input type="text" id="eNombrePaciente">
             <button id="buscarPacientes">Buscar</button>
@@ -52,12 +63,13 @@ class CrearTerapias extends HTMLElement {
         </div>
         `;
 
-        this.#agregarEstilo();
+        this.#agregarEstilo();      
+        this.#agregarPaciente();
         const nombrePaciente = this.shadowRoot.querySelector("#eNombrePaciente");
         this.#getPacientes();
         let fechaInicio = this.shadowRoot.querySelector('#fechaInicio');
         let fechaFin = this.shadowRoot.querySelector('#fechaFin');
-        this.#enviarFechas(fechaInicio,fechaFin)
+        this.#enviarFechas(fechaInicio, fechaFin)
 
     }
 
@@ -68,37 +80,64 @@ class CrearTerapias extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    #getPacientes() {
-        const botonBuscarPaciente = this.shadowRoot.querySelector("#buscarPacientes");
-        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
-        botonBuscarPaciente.addEventListener('click', function () {
+    #agregarPaciente() {
+        const botonAgregarPaciente = this.shadowRoot.querySelector("#agregarPaciente");
+        const nombre = this.shadowRoot.querySelector("#nombrePaciente");
+        const fechaNacimiento = this.shadowRoot.querySelector("#fechaNacimiento");
+        botonAgregarPaciente.addEventListener('click', function () {
             fetch("http://localhost:3000/api/pacientes/", {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'aplication/json',
                 },
-
+                body: JSON.stringify(
+                    {
+                        "nombre": nombre.value,
+                        "fechaNacimiento": "10/11/1998",            
+                })
             })
-                .then((response) => response.json())
-                .then(data => {
-                    tablaPacientes.innerHTML = ''
-                    for (let valor of data) {
-                        tablaPacientes.innerHTML += `
+            .then(response => response.json())
+            .then(function (data) {
+                alert("Se ha guardado con exito el paciente");
+            }).catch(function (error) {
+                    console.warn("Hubo algun error", error)
+            })
+
+        })
+    }
+
+
+    #getPacientes() {
+            const botonBuscarPaciente = this.shadowRoot.querySelector("#buscarPacientes");
+            let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
+            botonBuscarPaciente.addEventListener('click', function () {
+                fetch("http://localhost:3000/api/pacientes/", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'aplication/json',
+                    },
+
+                })
+                    .then((response) => response.json())
+                    .then(data => {
+                        tablaPacientes.innerHTML = ''
+                        for (let valor of data) {
+                            tablaPacientes.innerHTML += `
                     <tr>
                         <th>${valor.nombre}</th>
                     </tr>
                     `
-                    }
-                });
-        });
+                        }
+                    });
+            });
 
-    }
-    #enviarFechas(fechaInicio,fechaFin){
-        let botoncontinuarRegistroTerapiaPaciente = this.shadowRoot.querySelector('#continuarRegistroTerapiaPaciente');
-        botoncontinuarRegistroTerapiaPaciente,this.addEventListener('click',function(){
+        }
+    #enviarFechas(fechaInicio, fechaFin){
+            let botoncontinuarRegistroTerapiaPaciente = this.shadowRoot.querySelector('#continuarRegistroTerapiaPaciente');
+            botoncontinuarRegistroTerapiaPaciente, this.addEventListener('click', function () {
 
-        })
-    }
+            })
+        }
 }
 
 window.customElements.define("crearterapias-info", CrearTerapias);
