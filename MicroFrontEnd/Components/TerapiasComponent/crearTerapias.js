@@ -14,8 +14,8 @@ class CrearTerapias extends HTMLElement {
         <div id="divPrincipal">
         <div id="divAgregarPaciente">
         <h3>Agregar Nuevo Paciente</h3>
-        <label for="name">Nombre del Paciente:</label>
-        <input type="text" id="nombrePaciente">
+            <label for="name">Nombre del Paciente:</label>
+            <input type="text" id="nombrePaciente">
         <p></p>
         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
         <input type="date" id="fechaNacimiento">
