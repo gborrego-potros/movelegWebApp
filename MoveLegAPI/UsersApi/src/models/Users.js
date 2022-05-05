@@ -7,7 +7,8 @@ module.exports= (sequelize, type)=>{
             autoIncrement: true
         },
         nombre: type.STRING,
-        fechaNacimiento: type.DATE
+        fechaNacimiento: type.DATE,
+        contrasenia:type.STRING
     }, { sequelize, modelName: 'user' }
     )    
 }

@@ -17,8 +17,10 @@ body{
 
 #botonBuscarPaciente{
     position: relative;
+    width: 50px;
     left: 50px;
 }
+
 #periodoPaciente{
     height: 50px;
     width: auto;

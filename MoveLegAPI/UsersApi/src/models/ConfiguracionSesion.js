@@ -6,8 +6,9 @@ module.exports = (sequelize, type) =>{
             primaryKey: true,
             autoIncrement: true
         },
-        numRepeticiones:type.INTEGER,
+        idTerapia:type.INTEGER,
         numRepeticionesTobillo:type.INTEGER,
+        numRepeticionesRodilla:type.INTEGER,
         porcentajeDisminucionRD:type.FLOAT,
         porcentajeDisminucionTD:type.FLOAT,
         porcentajeDisminucionTV:type.FLOAT,

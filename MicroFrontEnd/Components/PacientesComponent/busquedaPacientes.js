@@ -34,9 +34,6 @@ class BusquedaPacientes extends HTMLElement {
                     <td>Paciente</td>
                     <td>Fecha Inicio</td>
                     <td>Fecha Fin</td>
-                    <td>Prox. Sesión</td>
-                    <td>Avance</td>
-                    <td></td>
                     <td></td>
                 </tr>
                 <tbody id ="tablaPacientes">
@@ -68,30 +65,18 @@ class BusquedaPacientes extends HTMLElement {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                }
-            })
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     datosPaciente = data;
-                   /* 
-                    tablaPacientes.innerHTML = ''
-                    for (let valor of data) {
-                        tablaPacientes.innerHTML += `
-                        <tr>
-                        <td>${valor.nombre}</td> 
-                        <td>${valor.fechaInicio}</td>    
-                        </tr>                  
-                    `;
-                    
-                    }*/
-
                 });
                 fetch("http://localhost:3000/api/terapias/", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+                     method: 'GET',
+                    headers: {
+                       'Content-Type': 'application/json',
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     let contador =0;
@@ -100,8 +85,9 @@ class BusquedaPacientes extends HTMLElement {
                         tablaPacientes.innerHTML += `
                         <tr>
                         <td>${datosPaciente[contador].nombre}</td> 
-                        <td>${valor.fechaInicio}</td>  
-                        <td>${valor.fechaFin}</td>   
+                        <td>${valor.fechaInicio.substring(0, 10)}</td>  
+                        <td>${valor.fechaFin.substring(0, 10)}</td> 
+                        <td>ver mas</td>
                         </tr>                  
                     `;
                     contador = contador+1;

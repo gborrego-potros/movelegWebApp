@@ -63,15 +63,14 @@ class DatosPaciente extends HTMLElement {
     #getDatosPaciente() {
         let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaPaciente');
         let parrafoDatosPaciente = this.shadowRoot.querySelector("#datosPaciente");
-        fetch("http://localhost:3000/api/pacientes/" ,{
+        fetch("http://localhost:3000/api/pacientes/1" ,{
             method: 'GET',
-            /*headers: {
+            headers: {
                 'Content-Type': 'application/json',
-            }, */
+            }, 
         })
             .then(response => response.json())
             .then(data => console.log(data));
-            /*
             {
                 
                 let pacientes = data.results;
@@ -82,7 +81,7 @@ class DatosPaciente extends HTMLElement {
   
                 //for(let s of sesiones){
                     
-                    /*
+                    
                     tablaDatosSesiones.innerHTML += `
                     <tr>
                         <td>${numSesion}</td>         
@@ -93,8 +92,7 @@ class DatosPaciente extends HTMLElement {
                         <td><a>Ver más<a></td>
                     </tr>
                     `
-                    */
-                //}
+                }
             //});
             
     }

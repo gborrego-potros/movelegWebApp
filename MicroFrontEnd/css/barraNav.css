@@ -5,7 +5,7 @@ body{
     height: auto;
     width: auto;
     position: relative;
-    left: 100px;
+    left: 0 px;
     
 }
 #barraNavegacion{
@@ -38,8 +38,8 @@ body{
     left: 80px;
 }
 #barraNavegacion{
-    height: 100px;
-    width: 1000px;
+    height: 90px;
+    width: 1600px;
     background-color: #0b5394ff;
     border-radius: 3px; 
 }

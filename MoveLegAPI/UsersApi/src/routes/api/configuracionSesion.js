@@ -7,9 +7,16 @@ router.get('/', async (req, res)=>{
     res.json(configuracion);
 });
 
+router.post('/', async(req, res) => {
+    //const idTerapia = req.params.idTerapia;
+    console.log(req.body);
+    const configuracion = await ConfiguracionSesion.create(req.body);
+    res.json(configuracion);
+});
+
 router.post('/idTerapia', async(req, res) => {
-    const idTerapia = req.params.idTerapia;
-    
+    //const idTerapia = req.params.idTerapia;
+    console.log(req.body);
     const configuracion = await ConfiguracionSesion.create(req.body);
     res.json(configuracion);
 });

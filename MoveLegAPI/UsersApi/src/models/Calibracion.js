@@ -6,6 +6,7 @@ module.exports = (sequelize, type) =>{
             primaryKey: true,
             autoIncrement: true
         },
+        idTerapia:type.INTEGER,
         anguloFlexionCadera:type.FLOAT,
         anguloFlexionRodilla:type.FLOAT,
         anguloDorsiflexion:type.FLOAT,

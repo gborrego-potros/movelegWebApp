@@ -7,7 +7,13 @@ router.get('/', async (req, res)=>{
     res.json(calibracion);
 });
 
+router.get('/calibracionId', async (req, res)=>{
+    const calibracion = await Calibracion.findByPk(req.params.calibracionId);
+    res.json(calibracion);
+});
+
 router.post('/', async(req, res) => {
+    console.log(req.body);
     const calibracion = await Calibracion.create(req.body);
     res.json(calibracion);
 });
