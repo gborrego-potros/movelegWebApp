@@ -1,19 +1,19 @@
 const router = require ('express').Router();
 
-const {ResultadoSesion } = require('../../db');
+const {Sesion} = require('../../db');
 
 router.get('/', async (req, res)=>{
-    const resultado = await ResultadoSesion.findAll();
+    const resultado = await Sesion.findAll();
     res.json(resultado);
 });
 
 router.post('/', async(req, res) => {
-    const resultado = await ResultadoSesion.create(req.body);
+    const resultado = await Sesion.create(req.body);
     res.json(resultado);
 });
 
 router.put('/:calibracionId', async(req, res) => {
-    await ResultadoSesion.update(req.body, {
+    await Sesion.update(req.body, {
         where: {id: req.params.resultadoSesionId}
     });
     res.json({success:'Se ha modificado'})
