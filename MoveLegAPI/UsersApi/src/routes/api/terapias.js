@@ -7,6 +7,11 @@ router.get('/', async (req, res)=>{
     res.json(terapia);
 });
 
+router.get('/:idTerapia', async (req, res)=>{
+    const terapia = await Terapia.findByPk(req.params.idTerapia);
+    res.json(terapia);
+});
+
 router.post('/', async(req, res) => {
 
     //req.body.paciente

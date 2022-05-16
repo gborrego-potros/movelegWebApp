@@ -16,6 +16,7 @@ router.put('/:calibracionId', async(req, res) => {
     await Sesion.update(req.body, {
         where: {id: req.params.resultadoSesionId}
     });
+    console.log(req.body);
     res.json({success:'Se ha modificado'})
 });
 

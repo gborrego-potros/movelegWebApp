@@ -10,35 +10,7 @@ class CrearTerapias extends HTMLElement {
     connectedCallback() {
         //let pacienteId = this.getAttribute("pacienteId");
         this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
-        <div id="divPrincipal">
-        <div id="divAgregarPaciente">
-        <h3>Agregar Nuevo Paciente</h3>
-        <form>
-            <div class="grid">
-                <p>
-                <label for="nombre">
-                    Nombre
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                </label>
-                
-                <label for="piernaAfectada">
-                    Pierna Afectada
-                    <input type="text" id="piernaAfectada" name="piernaAfectada" placeholder="Pierna Afectada" required>
-                </label>
-                </p>
-                <p>
-                <label for="patologia">
-                    Patologia   
-                    <input type="text" id="patologia" name="patologia" placeholder="Patologia" required>
-                </label>
-                <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
-                </p>
-            </div>  
-        <button id="agregarPaciente">Agregar</button>
-        </form>
-        </div>
+        this.shadowRoot.innerHTML = ` 
         <div id="divNombrePaciente">
             <h3>Buscar Paciente</h3>
             <label for="name">Nombre del Paciente:</label>
@@ -82,7 +54,7 @@ class CrearTerapias extends HTMLElement {
         `;
 
         this.#agregarEstilo();
-        this.#agregarPaciente();
+        //this.#agregarPaciente();
         const nombrePaciente = this.shadowRoot.querySelector("#eNombrePaciente");
         this.#getPacientes();
         let fechaInicio = this.shadowRoot.querySelector('#fechaInicio');
@@ -97,7 +69,7 @@ class CrearTerapias extends HTMLElement {
         link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
-
+    /*
     #agregarPaciente() {
         const botonAgregarPaciente = this.shadowRoot.querySelector("#agregarPaciente");
         const nombre = this.shadowRoot.querySelector("#nombre");
@@ -125,7 +97,7 @@ class CrearTerapias extends HTMLElement {
                 })
         })
     }
-
+    */
     #getPacientes() {
         const botonBuscarPaciente = this.shadowRoot.querySelector("#buscarPacientes");
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
