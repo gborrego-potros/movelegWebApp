@@ -37,6 +37,7 @@ class AgregarPaciente extends HTMLElement {
                 </p>
             </div>  
         <button id="agregarPaciente">Agregar</button>
+        <a href='../views/crearTerapia.html'>Siguiente</a>
         </form>
         </div>
 
@@ -81,7 +82,7 @@ class AgregarPaciente extends HTMLElement {
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
-        })
+        }) 
     }
 }
 

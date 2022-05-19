@@ -49,6 +49,7 @@ class CrearTerapias extends HTMLElement {
         <div id="botonesCrearTerapias">
         <button id="cancelarRegistroTerapiaPaciente">Cancelar</button>
         <button id="continuarRegistroTerapiaPaciente">Continuar</button>
+        <a href='../views/agregarAngulos.html'>Siguiente</a>
         </div>
         </div>
         `;

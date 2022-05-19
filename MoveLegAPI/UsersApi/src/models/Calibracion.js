@@ -7,10 +7,10 @@ module.exports = (sequelize, type) =>{
             autoIncrement: true
         },
         idTerapia:type.INTEGER,
-        anguloFlexionCadera:type.FLOAT,
-        anguloFlexionRodilla:type.FLOAT,
-        anguloDorsiflexion:type.FLOAT,
-        anguloPlantarFlexion:type.FLOAT
+        anguloFlexionCadera:type.INTEGER,
+        anguloFlexionRodilla:type.INTEGER,
+        anguloDorsiflexion:type.INTEGER,
+        anguloPlantarFlexion:type.INTEGER
     }
     )
 }

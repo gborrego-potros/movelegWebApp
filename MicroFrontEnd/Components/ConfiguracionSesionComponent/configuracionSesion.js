@@ -1,4 +1,4 @@
-class CrearTerapias2 extends HTMLElement {
+class ConfiguracionSesion extends HTMLElement {
 
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
@@ -17,22 +17,6 @@ class CrearTerapias2 extends HTMLElement {
             <label for="nombrePaciente">Terapia</label>
             <input type="text" id="nombrePaciente">
 
-        <div id="angulos">
-            <h2 id="angulosTitulo">Ángulos</h2>
-
-            <label for="anguloFlexionCadera">Ángulo flexión de cadera:</label>
-            <input type="text" id="anguloFlexionCadera">
-
-            <label for="anguloFlexionRodilla">Ángulo flexión de rodilla:</label>
-            <input type="text" id="anguloFlexionRodilla">
-
-            <label for="anguloDorsiflexion">Ángulo de dorsiflexión:</label>
-            <input type="text" id="anguloDorsiflexion">
-
-            <label for="anguloPlantarFlexion">Ángulo plantar flexión:</label>
-            <input type="text" id="anguloPlantarFlexion">
-
-        </div>
         <div id="tobilloRodilla">
             <h2 id="configuracionTobilloRodilla">Configuración</h2>  
 
@@ -63,6 +47,7 @@ class CrearTerapias2 extends HTMLElement {
         <div id="botonesCrearTerapias2">
         <button id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
         <button id="guardarRegistroTerapiaPaciente">Guardar</button>
+        <a href='../views/busquedaTerapias.html'>Siguiente</a>
         </div>
         </div>
         `;
@@ -87,49 +72,18 @@ class CrearTerapias2 extends HTMLElement {
         const pDisminucionTobilloD = this.shadowRoot.querySelector("#pDisminucionTobilloD");
         const pDisminucionRobillaV = this.shadowRoot.querySelector("#pDisminucionRobillaV");
         const pDisminucionTobilloV = this.shadowRoot.querySelector("#pDisminucionTobilloV");
-        const anguloFlexionCadera = this.shadowRoot.querySelector("#anguloFlexionCadera");
-        const anguloFlexionRodilla = this.shadowRoot.querySelector("#anguloFlexionRodilla");
-        const anguloDorsiflexion = this.shadowRoot.querySelector("#anguloDorsiflexion");
-        const anguloPlantarFlexion = this.shadowRoot.querySelector("#anguloPlantarFlexion");
+        
+        
 
         btnAgregarTerapia.addEventListener('click', function () {
-            /*
-            fetch("http://localhost:3000/api/calibraciones/" , {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "idTerapia": 1,
-                    "anguloFlexionCadera": anguloFlexionCadera.value,
-                    "anguloFlexionRodilla": anguloFlexionRodilla.value,
-                    "anguloDorsiflexion": anguloDorsiflexion.value,
-                    "anguloPlantarFlexion": anguloPlantarFlexion.value
-                    /*
-                    "numeroRepeticionesTobillo": numeroRepeticionesTobillo.value,
-                    "numeroRepeticionesRodilla": numeroRepeticionesRodilla.value,
-                    "pDisminucionRodillaD": pDisminucionRodillaD.value,
-                    "pDisminucionTobilloD": pDisminucionTobilloD.value,
-                    "pDisminucionRobillaV": pDisminucionRobillaV.value,
-                    "pDisminucionTobilloV": pDisminucionTobilloV.value,
-                    
-                })
-
-            })
-                .then(response => response.json())
-                .then(function (data) {
-                    alert("Se ha guardado con exito la configuración");
-                }).catch(function (error) {
-                    console.warn("Hubo algun error", error)
-                })
-            */
+            console.log(pDisminucionRodillaD.value.type);
             fetch("http://localhost:3000/api/configuracionsesiones/" , { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "idTerapia": "2",
+                    "idTerapia": 2,
                     "numRepeticionesTobillo": numeroRepeticionesTobillo.value,
                     "numRepeticionesRodilla": numeroRepeticionesRodilla.value,
                     "porcentajeDisminucionRD": pDisminucionRodillaD.value,
@@ -151,4 +105,4 @@ class CrearTerapias2 extends HTMLElement {
     
 }
 
-window.customElements.define("crearterapias2-info", CrearTerapias2);
+window.customElements.define("configuracionsesion-info", ConfiguracionSesion);
