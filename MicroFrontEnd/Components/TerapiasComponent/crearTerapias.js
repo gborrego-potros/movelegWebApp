@@ -121,6 +121,7 @@ class CrearTerapias extends HTMLElement {
                     `
                     }
                 });
+                
         });
 
     }

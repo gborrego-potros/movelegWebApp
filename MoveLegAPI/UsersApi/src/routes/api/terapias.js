@@ -14,6 +14,8 @@ router.get('/:idTerapia', async (req, res)=>{
 
 router.post('/', async(req, res) => {
 
+
+    
     //req.body.paciente
     console.log(req.body.terapia);
     const terapia= await Terapia.create(req.body.terapia);

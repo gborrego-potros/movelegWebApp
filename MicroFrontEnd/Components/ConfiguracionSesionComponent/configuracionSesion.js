@@ -47,7 +47,6 @@ class ConfiguracionSesion extends HTMLElement {
         <div id="botonesCrearTerapias2">
         <button id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
         <button id="guardarRegistroTerapiaPaciente">Guardar</button>
-        <a href='../views/busquedaTerapias.html'>Siguiente</a>
         </div>
         </div>
         `;
@@ -95,6 +94,7 @@ class ConfiguracionSesion extends HTMLElement {
             .then(response => response.json())
                 .then(function (data) {
                     alert("Se ha guardado con exito la configuración");
+                    window.open("../views/busquedaTerapias.html");
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
