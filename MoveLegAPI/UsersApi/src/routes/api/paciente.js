@@ -17,12 +17,15 @@ router.get('/:pacienteId', async (req, res)=>{
 //se utiliza el metodo put para buscar, ya que por medio del metodo get no puedo enviar nada en el body
 router.put('/correo', async (req, res)=>{
     console.log(req.body.correo);
-    const pacientes = await Paciente.findOne({
+    const paciente = await Paciente.findOne({
         where: {
           correo: req.body.correo
         }
       });
-    res.json(pacientes);
+    if(paciente.contrasenia == req.body.contrasenia){
+        res.json(paciente);
+    }
+    res.json(null);
 });
 
 router.post('/', async(req, res) => {
