@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const UsersModel = require("./models/Users");
+const UsersModel = require("./models/Usuario");
 const TerapiaModel = require("./models/Terapia");
 const SesionModel = require("./models/Sesion");
 const ConfiguracionSesionModel = require("./models/ConfiguracionSesion");
@@ -16,7 +16,7 @@ const sequelize = new Sequelize("moveleg", "root", password, {
   dialect: "mysql",
 });
 
-const User = UsersModel(sequelize, Sequelize);
+const Usuario = UsersModel(sequelize, Sequelize);
 const Paciente = PacienteModel(sequelize, Sequelize);
 const Terapia = TerapiaModel(sequelize, Sequelize);
 const Sesion = SesionModel(sequelize, Sequelize);
@@ -29,7 +29,7 @@ sequelize.sync({ force: false }).then(() => {
 });
 
 module.exports={
-    User,
+    Usuario,
     Paciente,
     Terapia,
     Sesion,

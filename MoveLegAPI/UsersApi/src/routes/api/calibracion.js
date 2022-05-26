@@ -14,7 +14,7 @@ router.get('/calibracionId', async (req, res)=>{
 
 router.post('/', async(req, res) => {
     console.log(req.body);
-    const calibracion = await Calibracion.create(req.body);
+    const calibracion = await Calibracion.create(req.body.calibracion);
     res.json(calibracion);
 });
 

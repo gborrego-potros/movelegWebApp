@@ -9,7 +9,9 @@ module.exports= (sequelize, type)=>{
         nombre: type.STRING,
         fechaNacimiento: type.DATE,
         piernaAfectada: type.STRING,
-        patologia: type.STRING
+        patologia: type.STRING,
+        correo:type.STRING,
+        contrasenia:type.STRING
     }, { sequelize, modelName: 'paciente' }
     )    
 }

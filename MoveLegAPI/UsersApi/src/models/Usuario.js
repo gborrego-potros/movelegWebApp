@@ -1,6 +1,6 @@
 
 module.exports= (sequelize, type)=>{
-    return sequelize.define('user',{
+    return sequelize.define('usuario',{
         id:{
             type: type.INTEGER,
             primaryKey: true,
@@ -8,7 +8,8 @@ module.exports= (sequelize, type)=>{
         },
         nombre: type.STRING,
         fechaNacimiento: type.DATE,
+        correo:type.STRING,
         contrasenia:type.STRING
-    }, { sequelize, modelName: 'user' }
+    }, { sequelize, modelName: 'usuario' }
     )    
 }

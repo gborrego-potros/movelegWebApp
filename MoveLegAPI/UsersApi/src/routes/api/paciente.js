@@ -15,11 +15,11 @@ router.get('/:pacienteId', async (req, res)=>{
 });
 
 //se utiliza el metodo put para buscar, ya que por medio del metodo get no puedo enviar nada en el body
-router.put('/nombre', async (req, res)=>{
-    console.log(req.body.nombre);
+router.put('/correo', async (req, res)=>{
+    console.log(req.body.correo);
     const pacientes = await Paciente.findAll({
         where: {
-          nombre: req.body.nombre
+          correo: req.body.correo
         }
       });
     res.json(pacientes);
