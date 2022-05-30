@@ -18,23 +18,26 @@ class AgregarPaciente extends HTMLElement {
                 <p>
                 <label for="nombre">
                     Nombre
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                </label>
+                    </label>
+                <input style="width:50%;" type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                
                 <label for="piernaAfectada">
                     Pierna Afectada
-                    <input type="text" id="piernaAfectada" name="piernaAfectada" placeholder="Pierna Afectada" required>
                 </label>
+                <input style="width:50%;" type="text" id="piernaAfectada" name="piernaAfectada" placeholder="Pierna Afectada" required>
                 </p>
                 <p>
-                <label for="patologia">
+                <label style="margin-left:-80px;" for="patologia">
                     Patologia   
-                    <input type="text" id="patologia" name="patologia" placeholder="Patologia" required>
                 </label>
-                <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                <input style="width:50%; margin-left:-80px;" type="text" id="patologia" name="patologia" placeholder="Patologia" required>
+
+                <label style="margin-left:-80px;" for="fechaNacimiento">Fecha de Nacimiento</label>
+
+                <input style="width:50%; margin-left:-80px;" type="date" id="fechaNacimiento" name="fechaNacimiento" required>
                 </p>
             </div>  
-        <button id="agregarPaciente">Agregar</button>
+        <button style="width:50%; margin-left: 200px; " alignt" id="agregarPaciente">Agregar</button>
         </div>
         `;
 

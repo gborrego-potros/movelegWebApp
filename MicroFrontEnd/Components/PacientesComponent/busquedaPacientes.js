@@ -13,19 +13,21 @@ class BusquedaPacientes extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <div id="divPrincipal">
             <div>        
-                <label for="busquedaPacienteEtiqueta">Buscar por:</label> 
-                <input type="text" id="busquedaPacienteEntrada">
-                <button id="botonBuscarPaciente">Buscar</button>
+                <label for="busquedaPacienteEtiqueta">Buscar por Nombre:</label> 
+                <input style="width:50%;" type="text" id="busquedaPacienteEntrada">
+                
             </div>
             <p></p>
             <div id="periodoPaciente">        
-                <label for="busquedaPacienteEtiqueta">Periodo:</label>
+                <h3 for="busquedaPacienteEtiqueta">Periodo:</h3>
                 <p></p>
-                <label for="fechaInicio">Fecha de Inicio:</label>
-                <input type="date" id="fechaInicio">
-                <label for="fechaFin">Fecha de Fin:</label>
-                <input type="date" id="fechaFin">
+                <label style="width:25%; display: inline;" for="fechaInicio">Fecha de Inicio:</label>
+                <label style="width:25%; display: inline; margin-left: 200px" for="fechaFin">Fecha de Fin:</label>
+                <p></p>
+                <input style="width:25%; display: inline;" type="date" id="fechaInicio">
+                <input style="width:25%; display: inline; margin-left: 50px" type="date" id="fechaFin">
             </div>
+            <button style="width:50%; margin-left: 200px;" id="botonBuscarPaciente">Buscar</button>
             <p></p>
             <div id="tablaPacientesDiv">
                 <section>

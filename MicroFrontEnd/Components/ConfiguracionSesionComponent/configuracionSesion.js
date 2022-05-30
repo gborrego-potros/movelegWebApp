@@ -15,38 +15,38 @@ class ConfiguracionSesion extends HTMLElement {
         <h1 id="calibracionTitulo">Calibracion</h1>
 
             <label for="nombrePaciente">Nombre</label>
-            <input type="text" id="nombrePaciente">
+            <input style="width:70%;" type="text" id="nombrePaciente">
 
         <div id="tobilloRodilla">
             <h2 id="configuracionTobilloRodilla">Configuración</h2>  
 
             <label for="nRepeticionesTobillo">Número. repeticiones tobillo:</label>
-            <input type="text" id="nRepeticionesTobillo">
+            <input style="width:70%;" type="text" id="nRepeticionesTobillo">
 
 
             <label for="nRepeticionesRodilla">Número. repeticiones rodilla:</label>
-            <input type="text" id="nRepeticionesRodilla">
+            <input style="width:70%;" type="text" id="nRepeticionesRodilla">
 
   
             <label for="pDisminucionRodillaD">Porcentaje Disminución rodilla d:</label>
-            <input type="text" id="pDisminucionRodillaD">
+            <input style="width:70%;" type="text" id="pDisminucionRodillaD">
 
 
             <label for="pDisminucionTobilloD">Porcentaje Disminución tobillo d:</label>
-            <input type="text" id="pDisminucionTobilloD">
+            <input style="width:70%;" type="text" id="pDisminucionTobilloD">
 
             <label for="porcentajeDisminucionRodillaV">Porcentaje Disminución rodilla v:</label>
-            <input type="text" id="pDisminucionRobillaV">
+            <input style="width:70%;" type="text" id="pDisminucionRobillaV">
 
 
             <label for="porcentajeDisminucionTobilloV">Porcentaje Disminución tobillo v:</label>
-            <input type="text" id="pDisminucionTobilloV">
+            <input style="width:70%;" type="text" id="pDisminucionTobilloV">
 
         </div>
 
         <div id="botonesCrearTerapias2">
-        <button id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
-        <button id="guardarRegistroTerapiaPaciente">Guardar</button>
+        <button style="width:25%; display: inline; margin-left: 100px;" id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
+        <button style="width:25%; display: inline; margin-left: 15px;" id="guardarRegistroTerapiaPaciente">Guardar</button>
         </div>
         </div>
         `;

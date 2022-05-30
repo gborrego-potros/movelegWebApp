@@ -14,8 +14,8 @@ class CrearTerapias extends HTMLElement {
         <div id="divNombrePaciente">
             <h3>Buscar Paciente</h3>
             <label for="name">Nombre del Paciente:</label>
-            <input type="text" id="nombrePaciente">
-            <button id="buscarPacientes">Buscar</button>
+            <input style="width:50%;" type="text" id="nombrePaciente">
+            <button style="width:50%;" id="buscarPacientes">Buscar</button>
         </div>
         <div>
         
@@ -36,20 +36,18 @@ class CrearTerapias extends HTMLElement {
         
         <div id="fechas">
             <h2 id="fechasTitulo">Fechas</h2>
-            <div id="fecha1">
-            <label for="fechaInicio">Fecha de Inicio:</label>
-            <input type="date" id="fechaInicio">
-            </div>
-            <div id="fecha2">
-            <label for="fechaFin">Fecha de Fin:</label>
-            <input type="date" id="fechaFin">
-            </div>
+
+                <label style="width:25%; display: inline;" for="fechaInicio">Fecha de Inicio:</label>
+                <label style="width:25%; display: inline; margin-left: 160px" for="fechaFin">Fecha de Fin:</label>
+                <p></p>
+                <input style="width:25%; display: inline;" type="date" id="fechaInicio">
+                <input style="width:25%; display: inline; margin-left: 15px" type="date" id="fechaFin">
+
         </div>
 
         <div id="botonesCrearTerapias">
-        <button id="cancelarRegistroTerapiaPaciente">Cancelar</button>
-        <button id="crearTerapiaButton">Continuar</button>
-        <a href='../views/agregarAngulos.html'>Siguiente</a>
+        <button style="width:25%; display: inline; " id="cancelarRegistroTerapiaPaciente">Cancelar</button>
+        <button style="width:25%; display: inline; margin-left: 15px;" id="crearTerapiaButton">Continuar</button>
         </div>
         </div>
         `;

@@ -11,32 +11,31 @@ class AgregarCalibracionAngulos extends HTMLElement {
         //let pacienteId = this.getAttribute("pacienteId");
         this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
-        <div id="divPrincipal">
+
         <h1 id="calibracionTitulo">Calibracion</h1>
 
             <label for="nombrePaciente">Nombre</label>
-            <input type="text" id="nombrePaciente" name="nombrepaciente">
+            <input style="width:50%;" type="text" id="nombrePaciente" name="nombrepaciente">
 
         <div id="angulos">
             <h2 id="angulosTitulo">Ángulos</h2>
 
             <label for="anguloFlexionCadera">Ángulo flexión de cadera:</label>
-            <input type="number" id="anguloFlexionCadera">
+            <input style="width:50%;" type="number" id="anguloFlexionCadera">
 
             <label for="anguloFlexionRodilla">Ángulo flexión de rodilla:</label>
-            <input type="number" id="anguloFlexionRodilla">
+            <input style="width:50%;" type="number" id="anguloFlexionRodilla">
 
             <label for="anguloDorsiflexion">Ángulo de dorsiflexión:</label>
-            <input type="number" id="anguloDorsiflexion">
+            <input style="width:50%;" type="number" id="anguloDorsiflexion">
 
             <label for="anguloPlantarFlexion">Ángulo plantar flexión:</label>
-            <input type="number" id="anguloPlantarFlexion">
+            <input style="width:50%;" type="number" id="anguloPlantarFlexion">
 
         </div>
         <div id="botonesCrearTerapias2">
-        <button id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
-        <button id="guardarRegistroTerapiaPaciente">Guardar</button>
-        </div>
+        <button style="width:25%; display: inline; margin-left: 100px;" id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
+        <button style="width:25%; display: inline; margin-left: 15px;" id="guardarRegistroTerapiaPaciente">Guardar</button>
         </div>
         `;
 

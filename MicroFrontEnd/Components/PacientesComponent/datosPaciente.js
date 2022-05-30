@@ -43,9 +43,9 @@ class DatosPaciente extends HTMLElement {
                 <div id="datosPaciente"></div>
             </div>
             <div id="botonesAgregarSesionesPaciente">
-            <button id="botonAgregarConfiguracion">Agregar Configuración</button> 
-            <button id="botonGenerarReporte">Generar Reporte</button> 
-            <button id="botonAgregarSesion">Agregar Sesión</button>
+            <button style="width:25%; display: inline;" id="botonAgregarConfiguracion">Agregar Configuración</button> 
+            <button style="width:25%; display: inline; margin-left: 15px;" id="botonGenerarReporte">Generar Reporte</button> 
+            <button style="width:25%; display: inline; margin-left: 15px;" id="botonAgregarSesion">Agregar Sesión</button>
             </div> 
             </div>`;
         
