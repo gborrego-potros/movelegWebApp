@@ -1,4 +1,4 @@
-class AgregarAngulos extends HTMLElement {
+class AgregarCalibracionAngulos extends HTMLElement {
 
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
@@ -14,23 +14,23 @@ class AgregarAngulos extends HTMLElement {
         <div id="divPrincipal">
         <h1 id="calibracionTitulo">Calibracion</h1>
 
-            <label for="nombrePaciente">Terapia</label>
-            <input type="text" id="nombrePaciente">
+            <label for="nombrePaciente">Nombre</label>
+            <input type="text" id="nombrePaciente" name="nombrepaciente">
 
         <div id="angulos">
             <h2 id="angulosTitulo">Ángulos</h2>
 
             <label for="anguloFlexionCadera">Ángulo flexión de cadera:</label>
-            <input type="text" id="anguloFlexionCadera">
+            <input type="number" id="anguloFlexionCadera">
 
             <label for="anguloFlexionRodilla">Ángulo flexión de rodilla:</label>
-            <input type="text" id="anguloFlexionRodilla">
+            <input type="number" id="anguloFlexionRodilla">
 
             <label for="anguloDorsiflexion">Ángulo de dorsiflexión:</label>
-            <input type="text" id="anguloDorsiflexion">
+            <input type="number" id="anguloDorsiflexion">
 
             <label for="anguloPlantarFlexion">Ángulo plantar flexión:</label>
-            <input type="text" id="anguloPlantarFlexion">
+            <input type="number" id="anguloPlantarFlexion">
 
         </div>
         <div id="botonesCrearTerapias2">
@@ -41,6 +41,7 @@ class AgregarAngulos extends HTMLElement {
         `;
 
         this.#agregarEstilo();
+        this.#agregarNombrePaciente();
         this.#agregarTerapia();
 
     }
@@ -52,13 +53,20 @@ class AgregarAngulos extends HTMLElement {
         link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
+
+    #agregarNombrePaciente(){
+        //sessionStorage.setItem('nombrePaciente', 'daniel reyes');
+        let nombrePaciente = sessionStorage.getItem('nombrePaciente')
+        this.shadowRoot.querySelector("#nombrePaciente").value = nombrePaciente;
+        this.shadowRoot.querySelector("#nombrePaciente").disabled = true;
+    }
+    
     #agregarTerapia() {
         const btnAgregarTerapia = this.shadowRoot.querySelector("#guardarRegistroTerapiaPaciente");
         const anguloFlexionCadera = this.shadowRoot.querySelector("#anguloFlexionCadera");
         const anguloFlexionRodilla = this.shadowRoot.querySelector("#anguloFlexionRodilla");
         const anguloDorsiflexion = this.shadowRoot.querySelector("#anguloDorsiflexion");
         const anguloPlantarFlexion = this.shadowRoot.querySelector("#anguloPlantarFlexion");
-
 
         btnAgregarTerapia.addEventListener('click', function () {
             fetch("http://localhost:3000/api/calibraciones/", {
@@ -67,7 +75,7 @@ class AgregarAngulos extends HTMLElement {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "idTerapia": 1,
+                    "idTerapia": sessionStorage.getItem('idTerapia'),
                     "anguloFlexionCadera": anguloFlexionCadera.value,
                     "anguloFlexionRodilla": anguloFlexionRodilla.value,
                     "anguloDorsiflexion": anguloDorsiflexion.value,
@@ -77,8 +85,9 @@ class AgregarAngulos extends HTMLElement {
             })
                 .then(response => response.json())
                 .then(function (data) {
-                    alert("Se ha guardado con exito la configuración");
+                    alert("Se ha guardado con éxito la calibración");
                     window.open("../views/configuracionSesion.html");
+                    window.close(this);
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
@@ -88,4 +97,4 @@ class AgregarAngulos extends HTMLElement {
 
 }
 
-window.customElements.define("agregarangulos-info", AgregarAngulos);
+window.customElements.define("agregarcalibracionangulos-info", AgregarCalibracionAngulos);

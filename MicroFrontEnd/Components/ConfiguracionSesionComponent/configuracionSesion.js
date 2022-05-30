@@ -14,32 +14,32 @@ class ConfiguracionSesion extends HTMLElement {
         <div id="divPrincipal">
         <h1 id="calibracionTitulo">Calibracion</h1>
 
-            <label for="nombrePaciente">Terapia</label>
+            <label for="nombrePaciente">Nombre</label>
             <input type="text" id="nombrePaciente">
 
         <div id="tobilloRodilla">
             <h2 id="configuracionTobilloRodilla">Configuración</h2>  
 
-            <label for="nRepeticionesTobillo">Núm. repeticiones tobillo:</label>
+            <label for="nRepeticionesTobillo">Número. repeticiones tobillo:</label>
             <input type="text" id="nRepeticionesTobillo">
 
 
-            <label for="nRepeticionesRodilla">Núm. repeticiones rodilla:</label>
+            <label for="nRepeticionesRodilla">Número. repeticiones rodilla:</label>
             <input type="text" id="nRepeticionesRodilla">
 
   
-            <label for="pDisminucionRodillaD">% Disminución rodilla d:</label>
+            <label for="pDisminucionRodillaD">Porcentaje Disminución rodilla d:</label>
             <input type="text" id="pDisminucionRodillaD">
 
 
-            <label for="pDisminucionTobilloD">% Disminución tobillo d:</label>
+            <label for="pDisminucionTobilloD">Porcentaje Disminución tobillo d:</label>
             <input type="text" id="pDisminucionTobilloD">
 
-            <label for="porcentajeDisminucionRodillaV">% Disminución rodilla v:</label>
+            <label for="porcentajeDisminucionRodillaV">Porcentaje Disminución rodilla v:</label>
             <input type="text" id="pDisminucionRobillaV">
 
 
-            <label for="porcentajeDisminucionTobilloV">% Disminución tobillo v:</label>
+            <label for="porcentajeDisminucionTobilloV">Porcentaje Disminución tobillo v:</label>
             <input type="text" id="pDisminucionTobilloV">
 
         </div>
@@ -52,6 +52,7 @@ class ConfiguracionSesion extends HTMLElement {
         `;
 
         this.#agregarEstilo();
+        this.#agregarNombrePaciente();
         this.#agregarTerapia();
 
     }
@@ -63,6 +64,15 @@ class ConfiguracionSesion extends HTMLElement {
         link.setAttribute("href", "../css/pico-master/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
+
+    #agregarNombrePaciente(){
+        //sessionStorage.setItem('nombrePaciente', 'daniel reyes');
+        let nombrePaciente = sessionStorage.getItem('nombrePaciente')
+        this.shadowRoot.querySelector("#nombrePaciente").value = nombrePaciente;
+        this.shadowRoot.querySelector("#nombrePaciente").disabled = true;
+    }
+    
+
     #agregarTerapia() {
         const btnAgregarTerapia = this.shadowRoot.querySelector("#guardarRegistroTerapiaPaciente");
         const numeroRepeticionesTobillo = this.shadowRoot.querySelector("#nRepeticionesTobillo");
@@ -82,7 +92,7 @@ class ConfiguracionSesion extends HTMLElement {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "idTerapia": 2,
+                    "idTerapia": sessionStorage.getItem('idTerapia'),
                     "numRepeticionesTobillo": numeroRepeticionesTobillo.value,
                     "numRepeticionesRodilla": numeroRepeticionesRodilla.value,
                     "porcentajeDisminucionRD": pDisminucionRodillaD.value,
@@ -93,8 +103,10 @@ class ConfiguracionSesion extends HTMLElement {
             })
             .then(response => response.json())
                 .then(function (data) {
-                    alert("Se ha guardado con exito la configuración");
+                    alert("Se ha guardado con éxito la configuración");
+                    sessionStorage.clear();
                     window.open("../views/busquedaTerapias.html");
+                    window.close(this);
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })

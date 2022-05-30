@@ -14,7 +14,7 @@ class CrearTerapias extends HTMLElement {
         <div id="divNombrePaciente">
             <h3>Buscar Paciente</h3>
             <label for="name">Nombre del Paciente:</label>
-            <input type="text" id="eNombrePaciente">
+            <input type="text" id="nombrePaciente">
             <button id="buscarPacientes">Buscar</button>
         </div>
         <div>
@@ -48,19 +48,20 @@ class CrearTerapias extends HTMLElement {
 
         <div id="botonesCrearTerapias">
         <button id="cancelarRegistroTerapiaPaciente">Cancelar</button>
-        <button id="continuarRegistroTerapiaPaciente">Continuar</button>
+        <button id="crearTerapiaButton">Continuar</button>
         <a href='../views/agregarAngulos.html'>Siguiente</a>
         </div>
         </div>
         `;
 
         this.#agregarEstilo();
-        //this.#agregarPaciente();
+        this.#agregarNombrePaciente();
         const nombrePaciente = this.shadowRoot.querySelector("#eNombrePaciente");
         this.#getPacientes();
         let fechaInicio = this.shadowRoot.querySelector('#fechaInicio');
         let fechaFin = this.shadowRoot.querySelector('#fechaFin');
         this.#enviarFechas(fechaInicio, fechaFin)
+        this.#agregarTerapia();
 
     }
 
@@ -70,35 +71,49 @@ class CrearTerapias extends HTMLElement {
         link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
         this.shadowRoot.appendChild(link);
     }
-    /*
-    #agregarPaciente() {
-        const botonAgregarPaciente = this.shadowRoot.querySelector("#agregarPaciente");
-        const nombre = this.shadowRoot.querySelector("#nombre");
-        const fechaNacimiento = this.shadowRoot.querySelector("#fechaNacimiento");
-        const piernaAfectada = this.shadowRoot.querySelector("#piernaAfectada");
-        const patologia = this.shadowRoot.querySelector("#patologia");
-        botonAgregarPaciente.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/pacientes/", {
+    
+    #agregarNombrePaciente(){
+        //sessionStorage.setItem('nombrePaciente', 'daniel reyes');
+        if(sessionStorage.getItem('nombrePaciente')!= null){
+            let nombrePaciente = sessionStorage.getItem('nombrePaciente')
+            this.shadowRoot.querySelector("#nombrePaciente").value = nombrePaciente;
+            this.shadowRoot.querySelector("#nombrePaciente").disabled = true;
+            this.shadowRoot.querySelector("#buscarPacientes").disabled = true;
+        }
+    }
+
+    #agregarTerapia() {
+        const btnAgregarTerapia = this.shadowRoot.querySelector("#crearTerapiaButton");
+        const fechaInicio = this.shadowRoot.querySelector("#fechaInicio");
+        const fechaFin = this.shadowRoot.querySelector("#fechaFin");
+
+        btnAgregarTerapia.addEventListener('click', function () {
+            fetch("http://localhost:3000/api/terapias/" , {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({     
-                        "nombre": nombre.value,
-                        "fechaNacimiento": fechaNacimiento.value,
-                        "piernaAfectada": piernaAfectada.value,
-                        "patologia": patologia.value 
+                body: JSON.stringify({
+                    "terapia": {
+                        "idPaciente": sessionStorage.getItem('idPaciente'),
+                        "fechaInicio": fechaInicio.value,
+                        "fechaFin": fechaFin.value,
+                    }
                 })
             })
-                .then(response => response.json(console.log()))
+                .then(response => response.json())
                 .then(function (data) {
-                    alert("Se ha guardado con exito el sorteo");
+                    alert("Se ha guardado con éxito la terapia");
+                    sessionStorage.setItem('idTerapia',data.id);
+                    window.open("../views/agregarCalibracionAngulos.html");
+                    window.close(this);
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
         })
+
     }
-    */
+
     #getPacientes() {
         const botonBuscarPaciente = this.shadowRoot.querySelector("#buscarPacientes");
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');

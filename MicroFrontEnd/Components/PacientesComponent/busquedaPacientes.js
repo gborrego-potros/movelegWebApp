@@ -12,7 +12,7 @@ class BusquedaPacientes extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
         <div id="divPrincipal">
-            <div id="busquedaPacienteEntrada">        
+            <div>        
                 <label for="busquedaPacienteEtiqueta">Buscar por:</label> 
                 <input type="text" id="busquedaPacienteEntrada">
                 <button id="botonBuscarPaciente">Buscar</button>
@@ -56,6 +56,48 @@ class BusquedaPacientes extends HTMLElement {
     }
 
     #getPacientes(pacienteId) {
+        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
+        let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
+        let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
+        let datosPaciente;
+        botonBuscarPaciente.addEventListener('click', function () {
+            fetch("http://localhost:3000/api/pacientes/", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    datosPaciente = data;
+                });
+                fetch("http://localhost:3000/api/terapias/", {
+                     method: 'GET',
+                    headers: {
+                       'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let contador =0;
+                    tablaPacientes.innerHTML = ''
+                    for (let valor of data) {   
+                        tablaPacientes.innerHTML += `
+                        <tr>
+                        <td>${datosPaciente[contador].nombre}</td> 
+                        <td>${valor.fechaInicio.substring(0, 10)}</td>  
+                        <td>${valor.fechaFin.substring(0, 10)}</td> 
+                        <td>ver mas</td>
+                        </tr>                  
+                    `;
+                    contador = contador+1;
+                    }
+
+                });
+        })
+    }
+
+    #getPacientesNombre() {
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
         let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');

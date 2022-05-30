@@ -1,5 +1,5 @@
 const router = require ('express').Router();
-
+const { Op } = require('Sequelize');
 const { response } = require('express');
 const { Paciente } = require('../../db');
 const {Configuracion}= require('../../db')
@@ -28,10 +28,23 @@ router.put('/correo', async (req, res)=>{
     res.json(null);
 });
 
+router.put('/nombre', async (req, res)=>{
+    console.log(req.body);
+    const pacientes = await Paciente.findAll({
+        where: {
+            nombre:{
+                [Op.iLike]:`%${req.body.nombre}%`
+            }
+        }
+      });
+    res.json(pacientes);
+});
+
 router.post('/', async(req, res) => {
     //req.body.paciente
-    //console.log(req.body);
+    console.log(req.body);
     const paciente = await Paciente.create(req.body);
+    console.log(paciente);
     res.json(paciente);
 });
 

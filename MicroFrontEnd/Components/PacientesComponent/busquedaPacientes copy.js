@@ -34,9 +34,6 @@ class BusquedaPacientes extends HTMLElement {
                     <td>Paciente</td>
                     <td>Fecha Inicio</td>
                     <td>Fecha Fin</td>
-                    <td>Prox. Sesión</td>
-                    <td>Avance</td>
-                    <td></td>
                     <td></td>
                 </tr>
                 <tbody id ="tablaPacientes">
@@ -62,28 +59,24 @@ class BusquedaPacientes extends HTMLElement {
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
         let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
-        let datosTerapia;
-        let idPacientesTerapias;
+        let datosPaciente;
         botonBuscarPaciente.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/terapias/", {
+            fetch("http://localhost:3000/api/pacientes/", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                }
-            })
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
-                    datosTerapia = data;
-                    //
-                    idPacientesTerapias = data.pacienteId;
-                    //Ver for de abajo
+                    datosPaciente = data;
                 });
-                fetch("http://localhost:3000/api/pacientes/", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+                fetch("http://localhost:3000/api/terapias/", {
+                     method: 'GET',
+                    headers: {
+                       'Content-Type': 'application/json',
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     let contador =0;
@@ -91,9 +84,10 @@ class BusquedaPacientes extends HTMLElement {
                     for (let valor of data) {   
                         tablaPacientes.innerHTML += `
                         <tr>
-                        <td>${datosTerapia[contador].nombre}</td> 
-                        <td>${valor.fechaInicio}</td>  
-                        <td>${valor.fechaFin.toISOString().split('T')[0]}</td>   
+                        <td>${datosPaciente[contador].nombre}</td> 
+                        <td>${valor.fechaInicio.substring(0, 10)}</td>  
+                        <td>${valor.fechaFin.substring(0, 10)}</td> 
+                        <td>ver mas</td>
                         </tr>                  
                     `;
                     contador = contador+1;

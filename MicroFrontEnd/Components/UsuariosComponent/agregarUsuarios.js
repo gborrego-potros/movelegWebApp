@@ -40,7 +40,6 @@ class AgregarPaciente extends HTMLElement {
         <a href='../views/crearTerapia.html'>Siguiente</a>
         </form>
         </div>
-
         `;
 
         this.#agregarEstilo();
@@ -78,7 +77,7 @@ class AgregarPaciente extends HTMLElement {
             })
                 .then(response => response.json(console.log()))
                 .then(function (data) {
-                    alert("Se ha guardado con exito el sorteo");
+                    alert("Se ha guardado con éxito el usuario");
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })

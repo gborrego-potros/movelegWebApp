@@ -10,8 +10,8 @@ module.exports= (sequelize, type)=>{
         fechaNacimiento: type.DATE,
         piernaAfectada: type.STRING,
         patologia: type.STRING,
-        correo:type.STRING,
-        contrasenia:type.STRING
+        //correo:type.STRING,
+        //contrasenia:type.STRING
     }, { sequelize, modelName: 'paciente' }
     )    
 }
