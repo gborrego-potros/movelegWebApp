@@ -115,4 +115,4 @@ class BusquedaPacientes extends HTMLElement {
 }*/
 }
 
-window.customElements.define("busquedapacientes-info", BusquedaPacientes);
+window.customElements.define("busquedaterapias-info", BusquedaPacientes);

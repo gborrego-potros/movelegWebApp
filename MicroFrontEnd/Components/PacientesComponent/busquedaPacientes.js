@@ -46,7 +46,7 @@ class BusquedaPacientes extends HTMLElement {
             </div>`;
 
         this.#agregarEstilo();
-        this.#getPacientes(pacienteId);
+        this.#getPacientes();
         //this.#getFechas(pacienteId);      
     }
 
@@ -57,7 +57,7 @@ class BusquedaPacientes extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    #getPacientes(pacienteId) {
+    #getPacientes() {
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
         let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
@@ -81,15 +81,17 @@ class BusquedaPacientes extends HTMLElement {
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     let contador =0;
                     tablaPacientes.innerHTML = ''
-                    for (let valor of data) {   
+                    for (let valor of data) { 
+                        terapiaInfo:
                         tablaPacientes.innerHTML += `
                         <tr>
                         <td>${datosPaciente[contador].nombre}</td> 
                         <td>${valor.fechaInicio.substring(0, 10)}</td>  
                         <td>${valor.fechaFin.substring(0, 10)}</td> 
-                        <td>ver mas</td>
+                        <td><a href="../views/datosPaciente.html" onClick="sessionStorage.setItem('idPaciente',${valor.idPaciente})">ver mas</a></td>
                         </tr>                  
                     `;
                     contador = contador+1;

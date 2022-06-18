@@ -13,10 +13,16 @@ class DatosPaciente extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <div id="divPrincipal">
             <div id="busquedaPacienteEntrada">        
-                <p>Paciente: Juan Pablo</p>
-                <p>Avance: 70%</p>
-                <p>Fecha Inicio: 21/01/2022</p>
-                <p>Fecha Final: 04/03/2022 </p>
+                <label>Paciente: </label>
+                <input style="width:50%;" type="text" id="nombrePaciente">
+                <p></p>
+                <label>Avance: 70% </label>
+                <p></p>
+                <label style="width:25%; display: inline; for="fechaInicio">Fecha Inicio:</label>
+                <label style="width:25%; display: inline; margin-left: 130px" for="fechaFinal">Fecha Final:</label>
+                <p></p>
+                <input type="text" style="width:25%;  display: inline; id="fechaInicioTerapiaPaciente">
+                <input type="text" style="width:25%;  display: inline; margin-left:50px" id="fechaFinTerapiaPaciente">
             </div>
             <p>
             <hr></hr>
@@ -63,7 +69,9 @@ class DatosPaciente extends HTMLElement {
     #getDatosPaciente() {
         let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaPaciente');
         let parrafoDatosPaciente = this.shadowRoot.querySelector("#datosPaciente");
-        fetch("http://localhost:3000/api/pacientes/1" ,{
+        let idPaciente = sessionStorage.getItem('idPaciente');
+        let campoNombrePaciente = this.shadowRoot.querySelector('#nombrePaciente');
+        fetch("http://localhost:3000/api/pacientes/" + idPaciente ,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +80,9 @@ class DatosPaciente extends HTMLElement {
             .then(response => response.json())
             .then(data => console.log(data));
             {
-                
+                campoNombrePaciente.set
+                console.log(data);
+                /*
                 let pacientes = data.results;
                 parrafoDatosPaciente.innerHTML =`
                     <p>${pacientes}</p>
@@ -91,7 +101,7 @@ class DatosPaciente extends HTMLElement {
                         <td>Borrar</td>
                         <td><a>Ver más<a></td>
                     </tr>
-                    `
+                    `*/
                 }
             //});
             
