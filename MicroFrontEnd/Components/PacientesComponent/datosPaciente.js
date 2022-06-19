@@ -46,7 +46,6 @@ class DatosPaciente extends HTMLElement {
                          
             </table>
                 </section>
-                <div id="datosPaciente"></div>
             </div>
             <div id="botonesAgregarSesionesPaciente">
             <button style="width:25%; display: inline;" id="botonAgregarConfiguracion">Agregar Configuración</button> 
@@ -56,7 +55,7 @@ class DatosPaciente extends HTMLElement {
             </div>`;
         
         this.#agregarEstilo();
-        this.#getDatosPaciente();    
+        this.#getDatosTerapia();    
     }
     
     #agregarEstilo() {
@@ -66,22 +65,34 @@ class DatosPaciente extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
     
-    #getDatosPaciente() {
+    #getDatosTerapia() {
         let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaPaciente');
         let parrafoDatosPaciente = this.shadowRoot.querySelector("#datosPaciente");
-        let idPaciente = sessionStorage.getItem('idPaciente');
         let campoNombrePaciente = this.shadowRoot.querySelector('#nombrePaciente');
-        fetch("http://localhost:3000/api/pacientes/" + idPaciente ,{
+        let campoFechaInicio = this.shadowRoot.querySelector('#fechaInicioTerapiaPaciente');
+        let campoFechaFin = this.shadowRoot.querySelector('#fechaFinTerapiaPaciente');
+        let idTerapia = sessionStorage.getItem('idTerapia');
+        console.log(idTerapia);
+        fetch("http://localhost:3000/api/terapias/" + idTerapia ,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             }, 
         })
             .then(response => response.json())
-            .then(data => console.log(data));
-            {
-                campoNombrePaciente.set
+            .then(data => 
+            {   
+            //window.addEventListener('load', function(){
                 console.log(data);
+                console.log(data.fechaInicio);
+                console.log(data.fechaFin);
+                let primeraFecha = data.id;
+                let segundaFecha = data.fechaFin;
+                campoFechaInicio.value = primeraFecha;
+                campoFechaFin.value = segundaFecha;
+            //})
+                //console.log(data);
+
                 /*
                 let pacientes = data.results;
                 parrafoDatosPaciente.innerHTML =`
@@ -102,7 +113,7 @@ class DatosPaciente extends HTMLElement {
                         <td><a>Ver más<a></td>
                     </tr>
                     `*/
-                }
+                });
             //});
             
     }

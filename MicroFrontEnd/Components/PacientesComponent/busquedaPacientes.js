@@ -81,26 +81,35 @@ class BusquedaPacientes extends HTMLElement {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    
                     let contador =0;
                     tablaPacientes.innerHTML = ''
                     for (let valor of data) { 
-                        terapiaInfo:
+                        //console.log(data[contador])
+                        let terapiaInfo = { name: "Peter", age: 18, married: false };
+                        //let terapia = JSON.stringify(terapiaInfo);
+                        //localStorage.setItem('prueba', ${texto})
                         tablaPacientes.innerHTML += `
                         <tr>
                         <td>${datosPaciente[contador].nombre}</td> 
                         <td>${valor.fechaInicio.substring(0, 10)}</td>  
                         <td>${valor.fechaFin.substring(0, 10)}</td> 
-                        <td><a href="../views/datosPaciente.html" onClick="sessionStorage.setItem('idPaciente',${valor.idPaciente})">ver mas</a></td>
+                        <td><a onClick="sessionStorage.setItem('idTerapia', ${valor.id})" href="../views/datosPaciente.html")>Ver Mas</a></td>
                         </tr>                  
                     `;
                     contador = contador+1;
-                    }
-
-                });
+                    }  
+                });  
         })
-    }
 
+    }
+    /*
+    #setJsonTerapia(terapiaInfo){
+        console.log(terapiaInfo);
+        let terapia = JSON.stringify(terapiaInfo);
+        sessionStorage.setItem('terapia', terapia);
+    }
+    */
     #getPacientesNombre() {
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
