@@ -25,8 +25,19 @@ router.put('/:calibracionId', async(req, res) => {
     await ConfiguracionSesion.update(req.body, {
         where: {id: req.params.configuracionSesionId}
     });
-    res.json({success:'Se ha modificado'})
+    res.json({success:'Se ha modificado 2'})
 });
 
+//se utiliza el metodo put para buscar, ya que por medio del metodo get no puedo enviar nada en el body
+router.post('/terapia', async (req, res)=>{
+    console.log("Sos");
+    console.log(req.body.terapia);
+    const configuraciones = await ConfiguracionSesion.findAll({
+        where: {
+          idTerapia: req.body.terapia
+        }
+      });
+    res.json(configuraciones);
+});
 
 module.exports = router;

@@ -14,15 +14,15 @@ class DatosPaciente extends HTMLElement {
         <div id="divPrincipal">
             <div id="busquedaPacienteEntrada">        
                 <label>Paciente: </label>
-                <input style="width:50%;" type="text" id="nombrePaciente">
+                <input style="width:50%;" type="text" id="nombrePaciente" disabled>
                 <p></p>
                 <label>Avance: 70% </label>
                 <p></p>
                 <label style="width:25%; display: inline; for="fechaInicio">Fecha Inicio:</label>
                 <label style="width:25%; display: inline; margin-left: 130px" for="fechaFinal">Fecha Final:</label>
                 <p></p>
-                <input type="text" style="width:25%;  display: inline; id="fechaInicioTerapiaPaciente">
-                <input type="text" style="width:25%;  display: inline; margin-left:50px" id="fechaFinTerapiaPaciente">
+                <input style="width:25%; type="text" display: inline; id="fechaInicioTerapia" disabled>
+                <input style="width:25%; type="text" display: inline; margin-left:50px" id="fechaFinTerapia" disabled>
             </div>
             <p>
             <hr></hr>
@@ -66,12 +66,12 @@ class DatosPaciente extends HTMLElement {
     }
     
     #getDatosTerapia() {
+        let campoFechaInicio = this.shadowRoot.querySelector('#fechaInicioTerapia');
+        let campoFechaFin = this.shadowRoot.querySelector('#fechaFinTerapia');
         let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaPaciente');
-        let parrafoDatosPaciente = this.shadowRoot.querySelector("#datosPaciente");
         let campoNombrePaciente = this.shadowRoot.querySelector('#nombrePaciente');
-        let campoFechaInicio = this.shadowRoot.querySelector('#fechaInicioTerapiaPaciente');
-        let campoFechaFin = this.shadowRoot.querySelector('#fechaFinTerapiaPaciente');
         let idTerapia = sessionStorage.getItem('idTerapia');
+
         console.log(idTerapia);
         fetch("http://localhost:3000/api/terapias/" + idTerapia ,{
             method: 'GET',
@@ -82,40 +82,54 @@ class DatosPaciente extends HTMLElement {
             .then(response => response.json())
             .then(data => 
             {   
-            //window.addEventListener('load', function(){
-                console.log(data);
-                console.log(data.fechaInicio);
-                console.log(data.fechaFin);
-                let primeraFecha = data.id;
-                let segundaFecha = data.fechaFin;
+                //Asignar valores a los campos de las fechas
+                let primeraFecha = data.fechaInicio.substring(0, 10);
+                let segundaFecha = data.fechaFin.substring(0, 10);
                 campoFechaInicio.value = primeraFecha;
                 campoFechaFin.value = segundaFecha;
-            //})
-                //console.log(data);
+                let idPaciente = data.idPaciente;
+                sessionStorage.setItem('idPaciente', idPaciente);
+            });
 
-                /*
-                let pacientes = data.results;
-                parrafoDatosPaciente.innerHTML =`
-                    <p>${pacientes}</p>
-                    `
-                //let sesiones = data['data'];
-  
-                //for(let s of sesiones){
-                    
-                    
-                    tablaDatosSesiones.innerHTML += `
-                    <tr>
-                        <td>${numSesion}</td>         
-                        <td>${numRepeticiones}</td>
-                        <td>${repeticiones}</td>
-                        <td>${pDisminucion}</td>         
-                        <td>Borrar</td>
-                        <td><a>Ver más<a></td>
-                    </tr>
-                    `*/
+            fetch("http://localhost:3000/api/pacientes/" + sessionStorage.getItem('idPaciente') ,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }, 
+            })
+                .then(response => response.json())
+                .then(data => 
+                {   
+                    campoNombrePaciente.value = data.nombre;
+                }).catch(function (error) {
+                    console.warn("Hubo algun error", error)
                 });
-            //});
             
+            fetch("http://localhost:3000/api/configuracionsesiones/terapia/" ,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }, 
+                    body: JSON.stringify({
+                        "terapia": idTerapia
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => 
+                    {   
+                        console.log(data);
+                        tablaDatosSesiones.innerHTML+=`
+                        <tr>
+                        <td>${data[0].id}</td> 
+                        <td>${data[0].numRepeticionesTobillo}</td>  
+                        <td>${data[0].numRepeticionesRodilla}</td> 
+                        <td>${data[0].porcentajeDisminucionRD}</td>
+                        </tr>
+                        `;
+                    }).catch(function (error) {
+                        console.warn("Hubo algun error", error)
+                    });   
+     
     }
 }
 
