@@ -22,7 +22,7 @@ class DatosPaciente extends HTMLElement {
                 <label style="width:25%; display: inline; margin-left: 130px" for="fechaFinal">Fecha Final:</label>
                 <p></p>
                 <input style="width:25%; type="text" display: inline; id="fechaInicioTerapia" disabled>
-                <input style="width:25%; type="text" display: inline; margin-left:50px" id="fechaFinTerapia" disabled>
+                <input style="width:25%; type="text" display: inline; margin-left:70px" id="fechaFinTerapia" disabled>
             </div>
             <p>
             <hr></hr>
@@ -70,10 +70,10 @@ class DatosPaciente extends HTMLElement {
         let campoFechaFin = this.shadowRoot.querySelector('#fechaFinTerapia');
         let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaPaciente');
         let campoNombrePaciente = this.shadowRoot.querySelector('#nombrePaciente');
-        let idTerapia = sessionStorage.getItem('idTerapia');
+        let idTerapia = sessionStorage.getItem('terapia');
 
         console.log(idTerapia);
-        fetch("http://localhost:3000/api/terapias/" + idTerapia ,{
+        /*fetch("http://localhost:3000/api/terapias/" + idTerapia ,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,6 +100,8 @@ class DatosPaciente extends HTMLElement {
                 .then(response => response.json())
                 .then(data => 
                 {   
+                    console.log(data);
+                    console.log(data.nombre);
                     campoNombrePaciente.value = data.nombre;
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
@@ -130,6 +132,7 @@ class DatosPaciente extends HTMLElement {
                         console.warn("Hubo algun error", error)
                     });   
      
+                    */
     }
 }
 

@@ -76,9 +76,9 @@ class AgregarPaciente extends HTMLElement {
                 .then(response => response.json())
                 .then(function (data) {
                     alert("Se ha guardado con éxito el paciente");
-                    // let terapiaInfo = { name: "Peter", age: 18, married: false };
-                    // let terapia = JSON.stringify(terapiaInfo);
-                    // sessionStorage.setItem('prueba', terapia);
+                    let terapiaInfo = { name: "Peter", age: 18, married: false };
+                    let terapia = JSON.stringify(terapiaInfo);
+                     sessionStorage.setItem('prueba', terapia);
                     sessionStorage.setItem('idPaciente',data.id);
                     sessionStorage.setItem('nombrePaciente',data.nombre);
 

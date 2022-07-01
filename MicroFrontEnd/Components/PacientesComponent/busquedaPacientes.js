@@ -24,8 +24,8 @@ class BusquedaPacientes extends HTMLElement {
                 <label style="width:25%; display: inline;" for="fechaInicio">Fecha de Inicio:</label>
                 <label style="width:25%; display: inline; margin-left: 200px" for="fechaFin">Fecha de Fin:</label>
                 <p></p>
-                <input style="width:25%; display: inline;" type="date" id="fechaInicio">
-                <input style="width:25%; display: inline; margin-left: 50px" type="date" id="fechaFin">
+                <input style="width:25%; display: inline;" type="date" id="fechaFin">
+                <input style="width:25%; display: inline; margin-left: 185px" type="date" id="fechaFin">
             </div>
             <button style="width:50%; margin-left: 200px;" id="botonBuscarPaciente">Buscar</button>
             <p></p>
@@ -57,22 +57,15 @@ class BusquedaPacientes extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    #getPacientes() {
-        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
+    #getPacientes() {  
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
         let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
         let datosPaciente;
-        botonBuscarPaciente.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/pacientes/", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    datosPaciente = data;
-                });
+        botonBuscarPaciente.addEventListener('click',(e) => this.#clickBusquedaPacientes(e))
+    }
+    
+    #clickBusquedaPacientes(e){
+        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
                 fetch("http://localhost:3000/api/terapias/", {
                      method: 'GET',
                     headers: {
@@ -81,35 +74,34 @@ class BusquedaPacientes extends HTMLElement {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    
                     let contador =0;
                     tablaPacientes.innerHTML = ''
                     for (let valor of data) { 
-                        //console.log(data[contador])
-                        let terapiaInfo = { name: "Peter", age: 18, married: false };
-                        //let terapia = JSON.stringify(terapiaInfo);
-                        //localStorage.setItem('prueba', ${texto})
                         tablaPacientes.innerHTML += `
                         <tr>
-                        <td>${datosPaciente[contador].nombre}</td> 
+                        <td>${valor.id}</td> 
                         <td>${valor.fechaInicio.substring(0, 10)}</td>  
                         <td>${valor.fechaFin.substring(0, 10)}</td> 
-                        <td><a onClick="sessionStorage.setItem('idTerapia', ${valor.id})" href="../views/datosPaciente.html")>Ver Mas</a></td>
-                        </tr>                  
-                    `;
-                    contador = contador+1;
+                        <td><a id="linkTerapiaPaciente">Ver Mas</a></td>
+                        </tr>`;
+                        let linkTerapiaPaciente = this.shadowRoot.querySelector("#linkTerapiaPaciente");
+                        linkTerapiaPaciente.onclick = (e) =>{
+                            let terapiaInfo = { idTerapia:valor.id, nombre: "Peter", fechaInicio:valor.fechaInicio, fechaFin:valor.fechaFin};
+                            this.#setJsonTerapia(e, terapiaInfo);   
+                        };
                     }  
-                });  
-        })
-
+                    
+                    //<td><input type="button" value="Ver más" id="linkTerapiaPaciente"></td>
+                });
     }
-    /*
-    #setJsonTerapia(terapiaInfo){
+
+    #setJsonTerapia(e, terapiaInfo){
         console.log(terapiaInfo);
         let terapia = JSON.stringify(terapiaInfo);
         sessionStorage.setItem('terapia', terapia);
+        //window.open("../views/datosPaciente.html");
     }
-    */
+    
     #getPacientesNombre() {
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
