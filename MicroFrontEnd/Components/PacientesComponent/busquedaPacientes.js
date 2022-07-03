@@ -3,58 +3,67 @@ class BusquedaPacientes extends HTMLElement {
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
     #urlUsers = this.#urlService + 'users/';
+    #terapias = null;
 
     constructor() {
         super();
     }
     connectedCallback() {
         let pacienteId = this.getAttribute("pacienteId");
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
-        <div id="divPrincipal">
-            <div>        
-                <label for="busquedaPacienteEtiqueta">Buscar por Nombre:</label> 
-                <input style="width:50%;" type="text" id="busquedaPacienteEntrada">
-                
-            </div>
-            <p></p>
-            <div id="periodoPaciente">        
-                <h3 for="busquedaPacienteEtiqueta">Periodo:</h3>
-                <p></p>
-                <label style="width:25%; display: inline;" for="fechaInicio">Fecha de Inicio:</label>
-                <label style="width:25%; display: inline; margin-left: 200px" for="fechaFin">Fecha de Fin:</label>
-                <p></p>
-                <input style="width:25%; display: inline;" type="date" id="fechaFin">
-                <input style="width:25%; display: inline; margin-left: 185px" type="date" id="fechaFin">
-            </div>
-            <button style="width:50%; margin-left: 200px;" id="botonBuscarPaciente">Buscar</button>
-            <p></p>
-            <div id="tablaPacientesDiv">
-                <section>
-                <table role="grid">
-                <tr>
-                    <td>Paciente</td>
-                    <td>Fecha Inicio</td>
-                    <td>Fecha Fin</td>
-                    <td></td>
-                </tr>
-                <tbody id ="tablaPacientes">
-                </tbody>
-            </table>
-                </section>
-            </div>
-            </div>`;
-
-        this.#agregarEstilo();
+        const shadow = this.attachShadow({ mode: "open" });
+    
+        this.#agregarEstilo(shadow);
+        this.#render(shadow);
         this.#getPacientes();
         //this.#getFechas(pacienteId);      
     }
 
-    #agregarEstilo() {
+    #agregarEstilo(shadow) {
         let link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
         link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
-        this.shadowRoot.appendChild(link);
+        shadow.appendChild(link);
+    }
+
+    #render(shadow){
+        shadow.innerHTML += `
+        <div id="divPrincipal">
+        <div>        
+            <label for="busquedaPacienteEtiqueta">Buscar por Nombre:</label> 
+            <input style="width:50%;" type="text" id="busquedaPacienteEntrada">   
+        </div>
+        <p></p>
+        <div id="periodoPaciente">        
+            <h3 for="busquedaPacienteEtiqueta">Periodo:</h3>
+            <p></p>
+            <label style="width:25%; display: inline;" for="fechaInicio">Fecha de Inicio:</label>
+            <label style="width:25%; display: inline; margin-left: 200px" for="fechaFin">Fecha de Fin:</label>
+            <p></p>
+            <input style="width:25%; display: inline;" type="date" id="fechaFin">
+            <input style="width:25%; display: inline; margin-left: 185px" type="date" id="fechaFin">
+        </div>
+        <button style="width:50%; margin-left: 200px;" id="botonBuscarPaciente">Buscar</button>
+        <p></p> 
+        <div id="tablaPacientesDiv">
+            <section>
+            <table role="grid">
+            <tr>
+                <td>Paciente</td>
+                <td>Fecha Inicio</td>
+                <td>Fecha Fin</td>
+                <td></td>
+            </tr>
+            <template id="tmpTablaPacientes">
+            <tbody id ="tablaPacientes">
+                <tr id=renglon>
+                </tr>
+            </tbody>
+            </template>
+        </table>
+            </section>
+        </div>  
+        </div>                     
+        `;
     }
 
     #getPacientes() {  
@@ -65,6 +74,8 @@ class BusquedaPacientes extends HTMLElement {
     }
     
     #clickBusquedaPacientes(e){
+        let tmp = this.shadowRoot.querySelector("#tmpTablaPacientes");
+        let tmpClone = tmp.content.cloneNode(true); 
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
                 fetch("http://localhost:3000/api/terapias/", {
                      method: 'GET',
@@ -74,30 +85,38 @@ class BusquedaPacientes extends HTMLElement {
                 })
                 .then(response => response.json())
                 .then(data => {
+                    this.#terapias=data;
                     let contador =0;
-                    tablaPacientes.innerHTML = ''
+                    //tablaPacientes.innerHTML = '';
                     for (let valor of data) { 
-                        tablaPacientes.innerHTML += `
+                        tablaPacientes.appendChild(tmpClone.content);
+                        /*tablaPacientes.innerHTML += ` 
                         <tr>
                         <td>${valor.id}</td> 
                         <td>${valor.fechaInicio.substring(0, 10)}</td>  
                         <td>${valor.fechaFin.substring(0, 10)}</td> 
-                        <td><a id="linkTerapiaPaciente">Ver Mas</a></td>
-                        </tr>`;
-                        let linkTerapiaPaciente = this.shadowRoot.querySelector("#linkTerapiaPaciente");
-                        linkTerapiaPaciente.onclick = (e) =>{
-                            let terapiaInfo = { idTerapia:valor.id, nombre: "Peter", fechaInicio:valor.fechaInicio, fechaFin:valor.fechaFin};
-                            this.#setJsonTerapia(e, terapiaInfo);   
-                        };
+                        <td id="td${contador}"></td>
+                        </tr>`;*/
+                        let linkTerapiaPaciente = document.createElement("a");
+                        linkTerapiaPaciente.innerHTML="Ver mas";
+                        linkTerapiaPaciente.id="link"+contador;
+                        
+                        //linkTerapiaPaciente.onclick = (e) => alert("si agrega");
+                        //this.#setJsonTerapia(e
+                        let td = this.shadowRoot.getElementById("td"+contador);
+                        td.appendChild(linkTerapiaPaciente);
+                        linkTerapiaPaciente.addEventListener('click',(e) => this.#setJsonTerapia(e))
+                        contador++;
                     }  
-                    
-                    //<td><input type="button" value="Ver más" id="linkTerapiaPaciente"></td>
                 });
     }
 
-    #setJsonTerapia(e, terapiaInfo){
-        console.log(terapiaInfo);
-        let terapia = JSON.stringify(terapiaInfo);
+    
+
+    #setJsonTerapia(e){
+        alert("si entra aqui");
+        let idLink = e.currentTarget.id;
+        let terapia = JSON.stringify(this.#terapias[idLink]);
         sessionStorage.setItem('terapia', terapia);
         //window.open("../views/datosPaciente.html");
     }
