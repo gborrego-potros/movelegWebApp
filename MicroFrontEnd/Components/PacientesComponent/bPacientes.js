@@ -110,6 +110,7 @@ class BPacientes extends HTMLElement {
         console.log(terapia);
         sessionStorage.setItem('terapia', terapia);
         window.open("../views/datosPaciente.html");
+        window.close();
     }
     
 }

@@ -3,6 +3,7 @@ class DatosPaciente extends HTMLElement {
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
     #urlUsers = this.#urlService + 'users/';
+    #terapia = null;
 
     constructor() {
         super();
@@ -29,21 +30,23 @@ class DatosPaciente extends HTMLElement {
             </p>
             <h3>Sesiones</h3>
             <div id="tablaPacientesDiv">
-                <section>
-                <table >
+                <section style="overflow:auto; width:100%; height:500px;">
+                <table>
+                <thead>
                 <tr>
                     <th>Sesion</th>
-                    <th>Núm. Repeticiones</th>
-                    <th>Repeticiones</th>
-                    <th>% Disminucion</th>
-                    <th></th>
-                    <th></th>
+                    <th># Repeticiones Rodilla</th>
+                    <th># Repeticiones Tobillo</th>
+                    <th>% Disminucion Rodilla Derecha</th>
+                    <th>% Disminucion Tobillo Derecho</th>
+                    <th>% Disminucion Rodilla Izquierda</th>
+                    <th>% Disminucion Tobillo Izquierdo</th>
                 </tr>
-            
-                <tbody id ="tablaPaciente">
+                </thead>
+
+                <tbody id ="tablaConfiguracionPaciente">
 
                 </tbody>
-                         
             </table>
                 </section>
             </div>
@@ -68,71 +71,55 @@ class DatosPaciente extends HTMLElement {
     #getDatosTerapia() {
         let campoFechaInicio = this.shadowRoot.querySelector('#fechaInicioTerapia');
         let campoFechaFin = this.shadowRoot.querySelector('#fechaFinTerapia');
-        let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaPaciente');
+        let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaConfiguracionPaciente');
         let campoNombrePaciente = this.shadowRoot.querySelector('#nombrePaciente');
-        let idTerapia = sessionStorage.getItem('terapia');
-
-        console.log(idTerapia);
-        /*fetch("http://localhost:3000/api/terapias/" + idTerapia ,{
-            method: 'GET',
+        this.#terapia = JSON.parse(sessionStorage.getItem('terapia'));
+        console.log(this.#terapia.id);
+        fetch("http://localhost:3000/api/configuracionsesiones/terapia/",{
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            }, 
+            },
+            body: JSON.stringify({
+                "terapia": this.#terapia.id
+            })
+
         })
             .then(response => response.json())
             .then(data => 
             {   
                 //Asignar valores a los campos de las fechas
-                let primeraFecha = data.fechaInicio.substring(0, 10);
-                let segundaFecha = data.fechaFin.substring(0, 10);
+                console.log(data);
+                let primeraFecha = this.#terapia.fechaInicio.substring(0, 10);
+                let segundaFecha = this.#terapia.fechaFin.substring(0, 10);
                 campoFechaInicio.value = primeraFecha;
                 campoFechaFin.value = segundaFecha;
-                let idPaciente = data.idPaciente;
-                sessionStorage.setItem('idPaciente', idPaciente);
-            });
-
-            fetch("http://localhost:3000/api/pacientes/" + sessionStorage.getItem('idPaciente') ,{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }, 
-            })
-                .then(response => response.json())
-                .then(data => 
-                {   
-                    console.log(data);
-                    console.log(data.nombre);
-                    campoNombrePaciente.value = data.nombre;
-                }).catch(function (error) {
-                    console.warn("Hubo algun error", error)
-                });
-            
-            fetch("http://localhost:3000/api/configuracionsesiones/terapia/" ,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }, 
-                    body: JSON.stringify({
-                        "terapia": idTerapia
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => 
-                    {   
-                        console.log(data);
-                        tablaDatosSesiones.innerHTML+=`
+                // let idPaciente = data.idPaciente;
+                // sessinStorage.setItem('idPaciente', idPaciente);
+                let i=0;
+                for (let j = 0; j < 100; j++) {
+                    tablaDatosSesiones.innerHTML += `
                         <tr>
-                        <td>${data[0].id}</td> 
-                        <td>${data[0].numRepeticionesTobillo}</td>  
-                        <td>${data[0].numRepeticionesRodilla}</td> 
-                        <td>${data[0].porcentajeDisminucionRD}</td>
-                        </tr>
-                        `;
-                    }).catch(function (error) {
-                        console.warn("Hubo algun error", error)
-                    });   
-     
-                    */
+                        <td>${data[i].id}</td>
+                        <td>${data[i].numRepeticionesRodilla}</td>
+                        <td>${data[i].numRepeticionesTobillo}</td>
+                        <td>${data[i].porcentajeDisminucionRD}</td>
+                        <td>${data[i].porcentajeDisminucionTD}</td>
+                        <td>${data[i].porcentajeDisminucionTV}</td>
+                        <td>${data[i].porcentajeDisminucionRV}</td>
+                        </tr>   
+                    `; 
+                }
+               
+            });  
+
+            /*numRepeticionesTobillo
+            numRepeticionesRodilla
+            porcentajeDisminucionRD
+            porcentajeDisminucionTD
+            porcentajeDisminucionTV
+            porcentajeDisminucionRV */
+                    
     }
 }
 
