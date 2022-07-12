@@ -58,7 +58,8 @@ class DatosPaciente extends HTMLElement {
             </div>`;
         
         this.#agregarEstilo();
-        this.#getDatosTerapia();    
+        this.#getDatosTerapia();
+        this.#cambiarPantalla();    
     }
     
     #agregarEstilo() {
@@ -74,7 +75,6 @@ class DatosPaciente extends HTMLElement {
         let tablaDatosSesiones = this.shadowRoot.querySelector('#tablaConfiguracionPaciente');
         let campoNombrePaciente = this.shadowRoot.querySelector('#nombrePaciente');
         this.#terapia = JSON.parse(sessionStorage.getItem('terapia'));
-        console.log(this.#terapia.id);
         fetch("http://localhost:3000/api/configuracionsesiones/terapia/",{
             method: 'POST',
             headers: {
@@ -120,6 +120,15 @@ class DatosPaciente extends HTMLElement {
             porcentajeDisminucionTV
             porcentajeDisminucionRV */
                     
+    }
+
+    #cambiarPantalla(){
+        let botonAgregarConfiguracion = this.shadowRoot.querySelector("#botonAgregarConfiguracion");
+        botonAgregarConfiguracion.addEventListener('click' , function(){
+            sessionStorage.setItem('pantalla', true);
+            window.open("../views/agregarConfiguracionSesion.html");
+            window.close(this);
+        })
     }
 }
 

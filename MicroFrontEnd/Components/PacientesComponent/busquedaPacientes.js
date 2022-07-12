@@ -1,32 +1,26 @@
 class BusquedaPacientes extends HTMLElement {
-
-    #urlService = 'http://localhost:3000/api/';
-    #urlPacientes = this.#urlService + 'pacientes/';
-    #urlUsers = this.#urlService + 'users/';
+	#urlService = 'http://localhost:3000/api';
+	#urlComments = '/terapias/';
     #terapias = null;
 
     constructor() {
-        super();
-    }
+		super();
+	}
+	
     connectedCallback() {
-        let pacienteId = this.getAttribute("pacienteId");
-        const shadow = this.attachShadow({ mode: "open" });
-    
-        this.#agregarEstilo(shadow);
-        this.#render(shadow);
-        this.#getPacientes();
-        //this.#getFechas(pacienteId);      
-    }
-
-    #agregarEstilo(shadow) {
-        let link = document.createElement("link");
-        link.setAttribute("rel", "stylesheet");
-        link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
-        shadow.appendChild(link);
-    }
-
-    #render(shadow){
-        shadow.innerHTML += `
+		const shadow = this.attachShadow({ mode: "open" });		 
+		this.#agregaEstilo(shadow);	
+		this.#render(shadow);
+		this.#getPacientes(shadow);
+	}		
+	#agregaEstilo(shadow){
+		let link = document.createElement("link");
+		link.setAttribute("rel","stylesheet");
+		link.setAttribute("href","https://unpkg.com/@picocss/pico@latest/css/pico.min.css");		
+		shadow.appendChild(link);	
+	}
+	#render(shadow){
+		shadow.innerHTML += `
         <div id="divPrincipal">
         <div>        
             <label for="busquedaPacienteEtiqueta">Buscar por Nombre:</label> 
@@ -43,153 +37,82 @@ class BusquedaPacientes extends HTMLElement {
             <input style="width:25%; display: inline; margin-left: 185px" type="date" id="fechaFin">
         </div>
         <button style="width:50%; margin-left: 200px;" id="botonBuscarPaciente">Buscar</button>
-        <p></p> 
-        <div id="tablaPacientesDiv">
-            <section>
+        <p></p>
+
+        <div id="cantidad"></div>	  
+        <div id="divComments" class="comments">
             <table role="grid">
+
             <tr>
                 <td>Paciente</td>
                 <td>Fecha Inicio</td>
                 <td>Fecha Fin</td>
                 <td></td>
             </tr>
-            <template id="tmpTablaPacientes">
-            <tbody id ="tablaPacientes">
-                <tr id=renglon>
-                </tr>
+            <tbody id="tablaPacientes">
             </tbody>
-            </template>
-        </table>
-            </section>
-        </div>  
-        </div>                     
-        `;
-    }
+            </table> 
+        </div>
+			<template id="tmpComment">
+                <tr>
+                    <td id="Paciente"></td>
+                    <td id="FechaInicio"></td>
+                    <td id="FechaFin"></td>
+                    <td id="VerMas"></td>
+                </tr>         
+			</template>	
+        </div>      		
+		`;		
+	}
 
-    #getPacientes() {  
+    #getPacientes(shadow) {  
         let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
         let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
         let datosPaciente;
-        botonBuscarPaciente.addEventListener('click',(e) => this.#clickBusquedaPacientes(e))
-    }
-    
-    #clickBusquedaPacientes(e){
-        let tmp = this.shadowRoot.querySelector("#tmpTablaPacientes");
-        let tmpClone = tmp.content.cloneNode(true); 
-        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
-                fetch("http://localhost:3000/api/terapias/", {
-                     method: 'GET',
-                    headers: {
-                       'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    this.#terapias=data;
-                    let contador =0;
-                    //tablaPacientes.innerHTML = '';
-                    for (let valor of data) { 
-                        tablaPacientes.appendChild(tmpClone.content);
-                        /*tablaPacientes.innerHTML += ` 
-                        <tr>
-                        <td>${valor.id}</td> 
-                        <td>${valor.fechaInicio.substring(0, 10)}</td>  
-                        <td>${valor.fechaFin.substring(0, 10)}</td> 
-                        <td id="td${contador}"></td>
-                        </tr>`;*/
-                        let linkTerapiaPaciente = document.createElement("a");
-                        linkTerapiaPaciente.innerHTML="Ver mas";
-                        linkTerapiaPaciente.id="link"+contador;
-                        
-                        //linkTerapiaPaciente.onclick = (e) => alert("si agrega");
-                        //this.#setJsonTerapia(e
-                        let td = this.shadowRoot.getElementById("td"+contador);
-                        td.appendChild(linkTerapiaPaciente);
-                        linkTerapiaPaciente.addEventListener('click',(e) => this.#setJsonTerapia(e))
-                        contador++;
-                    }  
-                });
+        botonBuscarPaciente.addEventListener('click',(e) => this.#clickBusquedaPacientes(e,shadow))
     }
 
-    
+	#clickBusquedaPacientes(e, shadow){
+		fetch(this.#urlService+this.#urlComments)
+		  .then(response => response.json())
+		  .then(comments => {
+            this.#terapias = comments;
+			console.log(this.#terapias);
+            let span = shadow.querySelector("#cantidad");
+			//span.innerHTML = comments.length;
+			let div = shadow.querySelector("#tablaPacientes");
+			let tmp = shadow.querySelector("#tmpComment");
+			comments.forEach(c => this.#despliegaTabla(tmp,div,c));
+		  });	
+	}
+
+	#despliegaTabla(tmp,div,comment){
+		let clone = tmp.content.cloneNode(true);		 
+		let element = clone.querySelector("#Paciente");
+		element.innerHTML=comment.id;
+		element = clone.querySelector("#FechaInicio");
+		element.innerHTML=comment.fechaInicio.substring(0, 10);
+        element = clone.querySelector("#FechaFin");
+        element.innerHTML=comment.fechaFin.substring(0, 10);
+        element = clone.querySelector("#VerMas");
+        let linkTerapiaPaciente = document.createElement("a");
+        linkTerapiaPaciente.innerHTML="Ver mas";
+        linkTerapiaPaciente.id=comment.id-1;
+        element.appendChild(linkTerapiaPaciente);
+        linkTerapiaPaciente.addEventListener('click',(e) => this.#setJsonTerapia(e));
+		div.appendChild(clone);
+	}
 
     #setJsonTerapia(e){
-        alert("si entra aqui");
         let idLink = e.currentTarget.id;
+        console.log(idLink);
         let terapia = JSON.stringify(this.#terapias[idLink]);
+        console.log(terapia);
         sessionStorage.setItem('terapia', terapia);
-        //window.open("../views/datosPaciente.html");
+        window.open("../views/datosPaciente.html");
+        window.close();
     }
     
-    #getPacientesNombre() {
-        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
-        let botonBuscarPaciente = this.shadowRoot.querySelector('#botonBuscarPaciente');
-        let busquedaPacienteEntrada = this.shadowRoot.querySelector('#busquedaPacienteEntrada');
-        let datosPaciente;
-        botonBuscarPaciente.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/pacientes/", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    datosPaciente = data;
-                });
-                fetch("http://localhost:3000/api/terapias/", {
-                     method: 'GET',
-                    headers: {
-                       'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    let contador =0;
-                    tablaPacientes.innerHTML = ''
-                    for (let valor of data) {   
-                        tablaPacientes.innerHTML += `
-                        <tr>
-                        <td>${datosPaciente[contador].nombre}</td> 
-                        <td>${valor.fechaInicio.substring(0, 10)}</td>  
-                        <td>${valor.fechaFin.substring(0, 10)}</td> 
-                        <td>ver mas</td>
-                        </tr>                  
-                    `;
-                    contador = contador+1;
-                    }
-
-                });
-        })
-        
-
-    }
-    /*
-    #getFechas(pacienteId){
-        let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
-        botonBuscarPaciente.addEventListener('click', function () {
-        fetch("http://localhost:3000/api/terapias/" ,{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data =>{
-            console.log(data);
-            for(let valor of data){
-                tablaPacientes.innerHTML += `
-                        <tr>
-                        <td>${valor.fechaInicio}</td>  
-                        <td>${valor.fechaFin}</td>   
-                        <td>hola</td>     
-                        </tr>                  
-                    `
-            }
-            
-        })
-    })
-}*/
 }
 
-window.customElements.define("busquedapacientes-info", BusquedaPacientes);
+window.customElements.define('busquedapacientes-info', BusquedaPacientes);

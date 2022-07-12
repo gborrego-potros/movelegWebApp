@@ -3,15 +3,23 @@ class AgregarCalibracionAngulos extends HTMLElement {
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
     #urlUsers = this.#urlService + 'users/';
+    #terapia = null;
 
     constructor() {
         super();
     }
     connectedCallback() {
         //let pacienteId = this.getAttribute("pacienteId");
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+        const shadow  = this.attachShadow({ mode: "open" });
+        
+        this.#render(shadow);
+        this.#agregarEstilo();
+        this.#agregarNombrePaciente();
+        this.#clickAgregarTerapia();
 
+    }
+    #render(shadow){
+        shadow.innerHTML = `
         <h1 id="calibracionTitulo">Calibracion</h1>
 
             <label for="nombrePaciente">Nombre</label>
@@ -37,14 +45,8 @@ class AgregarCalibracionAngulos extends HTMLElement {
         <button style="width:25%; display: inline; margin-left: 100px;" id="cancelarRegistroTerapiaPaciente2">Cancelar</button>
         <button style="width:25%; display: inline; margin-left: 15px;" id="guardarRegistroTerapiaPaciente">Guardar</button>
         </div>
-        `;
-
-        this.#agregarEstilo();
-        this.#agregarNombrePaciente();
-        this.#agregarTerapia();
-
+        `; 
     }
-
     #agregarEstilo() {
         let link = document.createElement("link");
         link.setAttribute("id", "pagestyle");
@@ -54,27 +56,30 @@ class AgregarCalibracionAngulos extends HTMLElement {
     }
 
     #agregarNombrePaciente(){
-        //sessionStorage.setItem('nombrePaciente', 'daniel reyes');
-        let nombrePaciente = sessionStorage.getItem('nombrePaciente')
-        this.shadowRoot.querySelector("#nombrePaciente").value = nombrePaciente;
+        this.#terapia = JSON.parse(sessionStorage.getItem('terapia'));
+        this.shadowRoot.querySelector("#nombrePaciente").value = this.#terapia.nombrePaciente;
         this.shadowRoot.querySelector("#nombrePaciente").disabled = true;
     }
     
-    #agregarTerapia() {
+    #clickAgregarTerapia() {
         const btnAgregarTerapia = this.shadowRoot.querySelector("#guardarRegistroTerapiaPaciente");
+        btnAgregarTerapia.addEventListener('click',(e) => this.#agregarTerapia(e)) 
+
+    }
+
+    #agregarTerapia(e){
         const anguloFlexionCadera = this.shadowRoot.querySelector("#anguloFlexionCadera");
         const anguloFlexionRodilla = this.shadowRoot.querySelector("#anguloFlexionRodilla");
         const anguloDorsiflexion = this.shadowRoot.querySelector("#anguloDorsiflexion");
         const anguloPlantarFlexion = this.shadowRoot.querySelector("#anguloPlantarFlexion");
 
-        btnAgregarTerapia.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/calibraciones/", {
+        fetch("http://localhost:3000/api/calibraciones/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "idTerapia": sessionStorage.getItem('idTerapia'),
+                    "idTerapia": this.#terapia.idTerapia,
                     "anguloFlexionCadera": anguloFlexionCadera.value,
                     "anguloFlexionRodilla": anguloFlexionRodilla.value,
                     "anguloDorsiflexion": anguloDorsiflexion.value,
@@ -83,17 +88,27 @@ class AgregarCalibracionAngulos extends HTMLElement {
 
             })
                 .then(response => response.json())
-                .then(function (data) {
+                .then(data => {
                     alert("Se ha guardado con éxito la calibración");
-                    window.open("../views/configuracionSesion.html");
-                    window.close(this);
+                    this.#validarPantalla(e);
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
-        })
+    }
 
+
+    //Esta función permite identificar de que pantalla proviene el usuario y redireccionar a la pantalla correcta.
+    #validarPantalla(e){
+        if(sessionStorage.getItem('pantalla')){
+            window.open("../views/agregarConfiguracionSesion.html");
+            window.close(this);
+        }else{
+            window.open("../views/datosPaciente.html");
+            window.close(this);
+        }
     }
 
 }
+
 
 window.customElements.define("agregarcalibracionangulos-info", AgregarCalibracionAngulos);

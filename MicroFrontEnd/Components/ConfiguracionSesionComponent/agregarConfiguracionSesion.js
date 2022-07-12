@@ -1,16 +1,25 @@
-class ConfiguracionSesion extends HTMLElement {
+class AgregarConfiguracionSesion extends HTMLElement {
 
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
     #urlUsers = this.#urlService + 'users/';
-
+    #terapia = null;
+    
     constructor() {
         super();
     }
     connectedCallback() {
         //let pacienteId = this.getAttribute("pacienteId");
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+        const shadow = this.attachShadow({ mode: "open" });
+        
+        this.#render(shadow);
+        this.#agregarEstilo();
+        this.#agregarNombrePaciente();
+        this.#clickAgregarTerapia();
+
+    }
+    #render(shadow){
+        shadow.innerHTML = `
         <div id="divPrincipal">
         <h1 id="calibracionTitulo">Calibracion</h1>
 
@@ -50,13 +59,7 @@ class ConfiguracionSesion extends HTMLElement {
         </div>
         </div>
         `;
-
-        this.#agregarEstilo();
-        this.#agregarNombrePaciente();
-        this.#agregarTerapia();
-
     }
-
     #agregarEstilo() {
         let link = document.createElement("link");
         link.setAttribute("id", "pagestyle");
@@ -66,33 +69,31 @@ class ConfiguracionSesion extends HTMLElement {
     }
 
     #agregarNombrePaciente(){
-        //sessionStorage.setItem('nombrePaciente', 'daniel reyes');
-        let nombrePaciente = sessionStorage.getItem('nombrePaciente')
-        this.shadowRoot.querySelector("#nombrePaciente").value = nombrePaciente;
+        this.#terapia = JSON.parse(sessionStorage.getItem('terapia'));
+        this.shadowRoot.querySelector("#nombrePaciente").value = this.#terapia.nombrePaciente;
         this.shadowRoot.querySelector("#nombrePaciente").disabled = true;
     }
     
+    #clickAgregarTerapia(){
+        const btnAgregarTerapia = this.shadowRoot.querySelector("#guardarRegistroTerapiaPaciente");
+        btnAgregarTerapia.addEventListener('click',(e) => this.#agregarTerapia()) 
+    }
 
     #agregarTerapia() {
-        const btnAgregarTerapia = this.shadowRoot.querySelector("#guardarRegistroTerapiaPaciente");
         const numeroRepeticionesTobillo = this.shadowRoot.querySelector("#nRepeticionesTobillo");
         const numeroRepeticionesRodilla = this.shadowRoot.querySelector("#nRepeticionesRodilla");
         const pDisminucionRodillaD = this.shadowRoot.querySelector("#pDisminucionRodillaD");
         const pDisminucionTobilloD = this.shadowRoot.querySelector("#pDisminucionTobilloD");
         const pDisminucionRobillaV = this.shadowRoot.querySelector("#pDisminucionRobillaV");
         const pDisminucionTobilloV = this.shadowRoot.querySelector("#pDisminucionTobilloV");
-        
-        
-
-        btnAgregarTerapia.addEventListener('click', function () {
-            console.log(pDisminucionRodillaD.value.type);
+        console.log(pDisminucionRodillaD.value.type);
             fetch("http://localhost:3000/api/configuracionsesiones/" , { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "idTerapia": sessionStorage.getItem('idTerapia'),
+                    "idTerapia": this.#terapia.idTerapia,
                     "numRepeticionesTobillo": numeroRepeticionesTobillo.value,
                     "numRepeticionesRodilla": numeroRepeticionesRodilla.value,
                     "porcentajeDisminucionRD": pDisminucionRodillaD.value,
@@ -102,19 +103,28 @@ class ConfiguracionSesion extends HTMLElement {
                 })
             })
             .then(response => response.json())
-                .then(function (data) {
+                .then(data =>{
                     alert("Se ha guardado con éxito la configuración");
-                    sessionStorage.clear();
-                    window.open("../views/busquedaTerapias.html");
-                    window.close(this);
+                    this.#validarPantalla();
                 }).catch(function (error) {
                     console.warn("Hubo algun error", error)
                 })
 
-        })
+        }
 
+    //Esta función permite identificar de que pantalla proviene el usuario y redireccionar a la pantalla correcta.
+    #validarPantalla(){
+        if(sessionStorage.getItem('pantalla')){
+            sessionStorage.clear();
+            window.open("../views/busquedaPacientes.html");
+            window.close(this);
+        }else{
+            window.open("../views/datosPaciente.html");
+            window.close(this);
+        }
     }
+
     
 }
 
-window.customElements.define("configuracionsesion-info", ConfiguracionSesion);
+window.customElements.define("agregarconfiguracionsesion-info", AgregarConfiguracionSesion);

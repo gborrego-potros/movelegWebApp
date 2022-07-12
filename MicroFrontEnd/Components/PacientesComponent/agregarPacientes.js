@@ -7,10 +7,23 @@ class AgregarPaciente extends HTMLElement {
     constructor() {
         super();
     }
+
     connectedCallback() {
-        //let pacienteId = this.getAttribute("pacienteId");
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+        const shadow = this.attachShadow({ mode: "open" });
+        this.#render(shadow);
+        this.#agregarEstilo(shadow);    
+        this.#agregarPaciente(shadow);
+    }
+
+    #agregarEstilo(shadow) {
+        let link = document.createElement("link");
+        link.setAttribute("id", "pagestyle");
+        link.setAttribute("rel", "stylesheet");
+        link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
+        shadow.appendChild(link);
+    }
+    #render(shadow){
+        shadow.innerHTML = `
         <div id="divPrincipal">
         <div id="divAgregarPaciente">
         <h3>Agregar Nuevo Paciente</h3>
@@ -40,54 +53,53 @@ class AgregarPaciente extends HTMLElement {
         <button style="width:50%; margin-left: 200px; " alignt" id="agregarPaciente">Agregar</button>
         </div>
         `;
-
-        this.#agregarEstilo();
-        this.#agregarPaciente();
     }
-
-    #agregarEstilo() {
-        let link = document.createElement("link");
-        link.setAttribute("id", "pagestyle");
-        link.setAttribute("rel", "stylesheet");
-        link.setAttribute("href", "https://unpkg.com/@picocss/pico@latest/css/pico.min.css");
-        this.shadowRoot.appendChild(link);
-    }
-
-    #agregarPaciente() {
+    #agregarPaciente(shadow) {
         const botonAgregarPaciente = this.shadowRoot.querySelector("#agregarPaciente");
         const nombre = this.shadowRoot.querySelector("#nombre");
         const fechaNacimiento = this.shadowRoot.querySelector("#fechaNacimiento");
         const piernaAfectada = this.shadowRoot.querySelector("#piernaAfectada");
         const patologia = this.shadowRoot.querySelector("#patologia");
         
-        botonAgregarPaciente.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/pacientes/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({     
-                        "nombre": nombre.value,
-                        "fechaNacimiento": fechaNacimiento.value,
-                        "piernaAfectada": piernaAfectada.value,
-                        "patologia": patologia.value 
-                })
-            })
-                .then(response => response.json())
-                .then(function (data) {
-                    alert("Se ha guardado con éxito el paciente");
-                    let terapiaInfo = { name: "Peter", age: 18, married: false };
-                    let terapia = JSON.stringify(terapiaInfo);
-                     sessionStorage.setItem('prueba', terapia);
-                    sessionStorage.setItem('idPaciente',data.id);
-                    sessionStorage.setItem('nombrePaciente',data.nombre);
+        //botonAgregarPaciente.addEventListener('click',(e) => this.#clickAgregarPaciente(e, nombre,fechaNacimiento,piernaAfectada,patologia,shadow))
+        botonAgregarPaciente.onclick = (e) => this.#clickAgregarPaciente(e, nombre,fechaNacimiento,piernaAfectada,patologia,shadow);
+    }
 
-                    window.open("../views/crearTerapia.html");
-                    window.close(this);
-                }).catch(function (error) {
-                    console.warn("Hubo algun error", error)
-                })
-        }) 
+
+    #clickAgregarPaciente(e, nombre,fechaNacimiento,piernaAfectada,patologia,shadow){
+        
+        fetch("http://localhost:3000/api/pacientes/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({     
+                    "nombre": nombre.value,
+                    "fechaNacimiento": fechaNacimiento.value,
+                    "piernaAfectada": piernaAfectada.value,
+                    "patologia": patologia.value 
+                    
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert("Se ha guardado con éxito el paciente");
+                let terapia = this.#crearStringJSON(data.id, data.nombre);
+                //sessionStorage.setItem('idPaciente',data.id);
+                //sessionStorage.setItem('nombrePaciente',data.nombre);
+                sessionStorage.setItem('terapia',terapia);
+                window.open("../views/agregarTerapia.html");
+                window.close(this);
+            }).catch(function (error) {
+                console.warn("Hubo algun error", error)
+            })
+    }
+
+    #crearStringJSON(idPaciente, nombrePaciente){
+        let terapia = {};
+        terapia.idPaciente=idPaciente;
+        terapia.nombrePaciente=nombrePaciente;
+        return JSON.stringify(terapia);
     }
 }
 

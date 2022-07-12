@@ -1,16 +1,26 @@
-class CrearTerapias extends HTMLElement {
+class AgregarTerapias extends HTMLElement {
 
     #urlService = 'http://localhost:3000/api/';
     #urlPacientes = this.#urlService + 'pacientes/';
     #urlUsers = this.#urlService + 'users/';
+    #terapia = null;
 
     constructor() {
         super();
     }
     connectedCallback() {
-        //let pacienteId = this.getAttribute("pacienteId");
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = ` 
+        const shadow = this.attachShadow({ mode: "open" });
+        
+        this.#render(shadow);
+        this.#agregarEstilo();
+        this.#agregarNombrePaciente();
+        //const nombrePaciente = this.shadowRoot.querySelector("#eNombrePaciente");
+        this.#getPacientes();
+        this.#clickAgregarTerapia();
+    }
+
+    #render(shadow){
+        shadow.innerHTML = ` 
         <div id="divNombrePaciente">
             <h3>Buscar Paciente</h3>
             <label for="name">Nombre del Paciente:</label>
@@ -51,18 +61,7 @@ class CrearTerapias extends HTMLElement {
         </div>
         </div>
         `;
-
-        this.#agregarEstilo();
-        this.#agregarNombrePaciente();
-        const nombrePaciente = this.shadowRoot.querySelector("#eNombrePaciente");
-        this.#getPacientes();
-        let fechaInicio = this.shadowRoot.querySelector('#fechaInicio');
-        let fechaFin = this.shadowRoot.querySelector('#fechaFin');
-        this.#enviarFechas(fechaInicio, fechaFin)
-        this.#agregarTerapia();
-
     }
-
     #agregarEstilo() {
         let link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
@@ -71,47 +70,50 @@ class CrearTerapias extends HTMLElement {
     }
     
     #agregarNombrePaciente(){
-        //sessionStorage.setItem('nombrePaciente', 'daniel reyes');
-        if(sessionStorage.getItem('nombrePaciente')!= null){
-            let nombrePaciente = sessionStorage.getItem('nombrePaciente')
-            this.shadowRoot.querySelector("#nombrePaciente").value = nombrePaciente;
+        if(sessionStorage.getItem('terapia')!= null){
+            this.#terapia = JSON.parse(sessionStorage.getItem('terapia'));
+            this.shadowRoot.querySelector("#nombrePaciente").value =  this.#terapia.nombrePaciente;
             this.shadowRoot.querySelector("#nombrePaciente").disabled = true;
             this.shadowRoot.querySelector("#buscarPacientes").disabled = true;
         }
     }
 
-    #agregarTerapia() {
+    #clickAgregarTerapia() {
         const btnAgregarTerapia = this.shadowRoot.querySelector("#crearTerapiaButton");
+        btnAgregarTerapia.onclick = (e) => this.#agregarTerapia(e)
+    }
+
+    #agregarTerapia(e) {
         const fechaInicio = this.shadowRoot.querySelector("#fechaInicio");
         const fechaFin = this.shadowRoot.querySelector("#fechaFin");
 
-        btnAgregarTerapia.addEventListener('click', function () {
-            fetch("http://localhost:3000/api/terapias/" , {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "terapia": {
-                        "idPaciente": sessionStorage.getItem('idPaciente'),
-                        "fechaInicio": fechaInicio.value,
-                        "fechaFin": fechaFin.value,
-                    }
-                })
+        fetch("http://localhost:3000/api/terapias/" , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "terapia": {
+                    "idPaciente": sessionStorage.getItem('idPaciente'),
+                    "fechaInicio": fechaInicio.value,
+                    "fechaFin": fechaFin.value,
+                }
             })
-                .then(response => response.json())
-                .then(function (data) {
-                    alert("Se ha guardado con éxito la terapia");
-                    sessionStorage.setItem('idTerapia',data.id);
-                    window.open("../views/agregarCalibracionAngulos.html");
-                    window.close(this);
-                }).catch(function (error) {
-                    console.warn("Hubo algun error", error)
-                })
         })
-
+            .then(response => response.json())
+            .then(data => {
+                alert("Se ha guardado con éxito la terapia");
+                this.#terapia.idTerapia = data.id;
+                sessionStorage.setItem('terapia', JSON.stringify(this.#terapia));
+                sessionStorage.setItem('pantalla', true);
+                window.open("../views/agregarCalibracionAngulos.html");
+                window.close(this);
+            }).catch(function (error) {
+                console.warn("Hubo algun error", error)
+            })
     }
 
+    //#endregion
     #getPacientes() {
         const botonBuscarPaciente = this.shadowRoot.querySelector("#buscarPacientes");
         let tablaPacientes = this.shadowRoot.querySelector('#tablaPacientes');
@@ -139,12 +141,6 @@ class CrearTerapias extends HTMLElement {
 
     }
 
-    #enviarFechas(fechaInicio, fechaFin) {
-        let botoncontinuarRegistroTerapiaPaciente = this.shadowRoot.querySelector('#continuarRegistroTerapiaPaciente');
-        botoncontinuarRegistroTerapiaPaciente, this.addEventListener('click', function () {
-
-        })
-    }
 }
 
-window.customElements.define("crearterapias-info", CrearTerapias);
+window.customElements.define("agregarterapias-info", AgregarTerapias);
