@@ -1,5 +1,5 @@
 const router = require ('express').Router();
-const { Op } = require('Sequelize');
+const { Op } = require('sequelize');
 const { response } = require('express');
 const { Paciente } = require('../../db');
 const {Configuracion}= require('../../db')

@@ -11,7 +11,7 @@ require('dotenv').config();
 const password = process.env.MYSQL;
 const host = process.env.HOST;
 
-const sequelize = new Sequelize("moveleg", "root", password, {
+const sequelize = new Sequelize("moveleg", "root", "1234", {
   host: host,
   dialect: "mysql",
 });
