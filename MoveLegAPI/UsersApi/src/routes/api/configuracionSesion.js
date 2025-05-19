@@ -1,43 +1,51 @@
-const router = require ('express').Router();
+//Micro servicio solicitar configuracion - adaptar
 
+const router = require('express').Router();
 const { ConfiguracionSesion } = require('../../db');
+const { Usuario } = require('../../db');
+//const { Paciente } = require('../../db');
 
-router.get('/', async (req, res)=>{
-    const configuracion = await ConfiguracionSesion.findAll();
-    res.json(configuracion);
+router.post('/', async (req, res) => {
+  const {correo} = req.body;//en el cuerpo de la petición que se haga del juego va solo el correo
+
+  try {
+    const usuario = await Usuario.findOne({ where: { correo } });
+//VALIDACIONES NECESARIAS
+    if (!usuario) {
+      const respuesta = { mensaje: 'Usuario no encontrado' };
+      console.log('Respuesta:', respuesta);
+      return res.status(404).json(respuesta);
+    }
+
+      const configuracion = await ConfiguracionSesion.findOne({ where: { usuarioId: usuario.id } });
+    
+      if (configuracion) {
+        const respuesta = {
+          numRepTobillo: configuracion.numRepeticionesTobillo,
+          numRepRodilla: configuracion.numRepeticionesRodilla,
+          porcentajeDisminucionRD: configuracion.porcentajeDisminucionRD,
+          porcentajeDisminucionTD: configuracion.porcentajeDisminucionTD,
+          porcentajeDisminucionRV: configuracion.porcentajeDisminucionRV,
+          porcentajeDisminucionTV: configuracion.porcentajeDisminucionTV
+        };
+    
+        console.log("Respuesta:", JSON.stringify(respuesta));
+        return res.status(200).json(respuesta);
+      } else {
+        const respuesta = { mensaje: 'Paciente no tiene terapia recetada' };
+        console.log('Respuesta:', respuesta);
+        return res.status(404).json(respuesta);//Cambiar esto a 200
+      }
+    
+    
+//*********************************************************************/
+        
+
+  } catch (error) {
+    console.error('Error en login:', error);
+    return res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
 });
 
-router.post('/', async(req, res) => {
-    //const idTerapia = req.params.idTerapia;
-    console.log(req.body);
-    const configuracion = await ConfiguracionSesion.create(req.body);
-    res.json(configuracion);
-});
-
-router.post('/idTerapia', async(req, res) => {
-    //const idTerapia = req.params.idTerapia;
-    console.log(req.body);
-    const configuracion = await ConfiguracionSesion.create(req.body);
-    res.json(configuracion);
-});
-
-router.put('/:calibracionId', async(req, res) => {
-    await ConfiguracionSesion.update(req.body, {
-        where: {id: req.params.configuracionSesionId}
-    });
-    res.json({success:'Se ha modificado 2'})
-});
-
-//se utiliza el metodo put para buscar, ya que por medio del metodo get no puedo enviar nada en el body
-router.post('/terapia', async (req, res)=>{
-    console.log("Sos");
-    console.log(req.body.terapia);
-    const configuraciones = await ConfiguracionSesion.findAll({
-        where: {
-          idTerapia: req.body.terapia
-        }
-      });
-    res.json(configuraciones);
-});
-
-module.exports = router;
+  
+  module.exports = router;

@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
       return res.status(401).json(respuesta);
     }
      
-    const respuesta = {//SOLO SE NECESITA EL MENSAJE COMO RESPUESTA AL JUEGO
+    const respuesta = {//SOLO SE NECESITA EL MENSAJE COMO RESPUESTA AL JUEGO - EVITAR TRABAJO INNECESARIO 
       mensaje: "Login exitoso"
     };
     

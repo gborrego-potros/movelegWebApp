@@ -23,6 +23,12 @@ const Sesion = SesionModel(sequelize, Sequelize);
 const ConfiguracionSesion = ConfiguracionSesionModel(sequelize, Sequelize);
 const Calibracion = CalibracionModel(sequelize, Sequelize);
 
+//Definir asociaciones de tablas configuracionsesions y pacientes
+Usuario.hasMany(ConfiguracionSesion, { foreignKey: 'usuarioId' });
+ConfiguracionSesion.belongsTo(Usuario, { foreignKey: 'usuarioId' });
+//Definir las asociaciones de las tablas usuarios y pacientes
+Paciente.hasOne(Usuario, { foreignKey: 'pacienteId' });
+Usuario.belongsTo(Paciente, { foreignKey: 'pacienteId' });
 
 sequelize.sync({ force: false }).then(() => {
   console.log("tablas sincronizadas");

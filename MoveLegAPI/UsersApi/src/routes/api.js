@@ -13,8 +13,12 @@ router.use('/users',apiUsersRouter);
 router.use('/calibraciones', apiCalibracionRouter);
 router.use('/terapias', apiTerapiaRouter);
 router.use('/sesiones', apiSesionRouter);
+
+//Micro servicio solicitar configuraciones
 router.use('/configuracionsesiones', apiConfiguracionRouter);
+
 router.use('/pacientes', apiPacienteRouter);
+
 //Micro servicio validar credenciales
 router.use('/login', apiLoginRouter);
 
