@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
       } else {
         const respuesta = { mensaje: 'Paciente no tiene terapia recetada' };
         console.log('Respuesta:', respuesta);
-        return res.status(404).json(respuesta);//Cambiar esto a 200
+        return res.status(404).json(respuesta);//Cambiar esto a 200//no recuerdo por que puse esto
       }
     
     
@@ -47,5 +47,40 @@ router.post('/', async (req, res) => {
   }
 });
 
-  
+
+//VALIDAR SI EXISTE TERAPIA RECETADA Y DEVOLVER MENSAJE*********************************************
+router.post('/SolicitarTerapia', async (req, res) => {
+  const {correo} = req.body;//en el cuerpo de la petición que se haga del juego va solo el correo
+
+  try {
+    const usuario = await Usuario.findOne({ where: { correo } });
+//VALIDACIONES NECESARIAS
+    if (!usuario) {
+      const respuesta = { mensaje: 'Usuario no encontrado' };
+      console.log('Respuesta:', respuesta);
+      return res.status(404).json(respuesta);
+    }
+
+      const configuracion = await ConfiguracionSesion.findOne({ where: { usuarioId: usuario.id } });
+    
+      if (configuracion) {
+        const respuesta = { mensaje: 'Paciente si tiene terapia recetada' };
+        console.log('Respuesta:', respuesta);
+        return res.status(200).json(respuesta);
+      } else {
+        const respuesta = { mensaje: 'Paciente no tiene terapia recetada' };
+        console.log('Respuesta:', respuesta);
+        return res.status(404).json(respuesta);
+      }
+    
+    
+//*********************************************************************/
+        
+
+  } catch (error) {
+    console.error('Error en login:', error);
+    return res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+});
+
   module.exports = router;
