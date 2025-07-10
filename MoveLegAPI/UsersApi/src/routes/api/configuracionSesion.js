@@ -3,11 +3,12 @@
 const router = require('express').Router();
 const { ConfiguracionSesion } = require('../../db');
 const { Usuario } = require('../../db');
+const verificarToken = require('../../middleware/auth');
 //const { Paciente } = require('../../db');
 
-router.post('/', async (req, res) => {
-  const {correo} = req.body;//en el cuerpo de la petición que se haga del juego va solo el correo
-
+router.post('/', verificarToken, async (req, res) => {
+  const { correo} = req.body; 
+ 
   try {
     const usuario = await Usuario.findOne({ where: { correo } });
 //VALIDACIONES NECESARIAS
@@ -49,9 +50,8 @@ router.post('/', async (req, res) => {
 
 
 //VALIDAR SI EXISTE TERAPIA RECETADA Y DEVOLVER MENSAJE*********************************************
-router.post('/SolicitarTerapia', async (req, res) => {
-  const {correo} = req.body;//en el cuerpo de la petición que se haga del juego va solo el correo
-
+router.post('/SolicitarTerapia', verificarToken, async (req, res) => {
+   const { correo} = req.body;
   try {
     const usuario = await Usuario.findOne({ where: { correo } });
 //VALIDACIONES NECESARIAS

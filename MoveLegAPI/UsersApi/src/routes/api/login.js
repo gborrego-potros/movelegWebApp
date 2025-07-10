@@ -2,6 +2,9 @@
 
 const router = require('express').Router();
 const { Usuario } = require('../../db');
+const jwt = require('jsonwebtoken')//Se importa JWT
+
+const CLAVE_SECRETA = 'ya_termino_el_proximo_semestre_animo';
 
 router.post('/', async (req, res) => {
   const { correo, contrasenia } = req.body;
@@ -20,16 +23,16 @@ router.post('/', async (req, res) => {
       console.log('Respuesta:', respuesta);
       return res.status(401).json(respuesta);
     }
-     
-    const respuesta = {//SOLO SE NECESITA EL MENSAJE COMO RESPUESTA AL JUEGO - EVITAR TRABAJO INNECESARIO 
-      mensaje: "Login exitoso"
-    };
+  //Crear el token
+  const token = jwt.sign(
+      { id: usuario.id, correo: usuario.correo },
+      CLAVE_SECRETA,
+      { expiresIn: '1h' } // Expira en 1 hora
+    );
     
-    console.log("Respuesta:", JSON.stringify(respuesta));
-    return res.status(200).json(respuesta);
-    
-        
-
+    //Devolver el token junto con el mensaje
+    return res.status(200).json({ mensaje: 'Login exitoso', token });
+  
   } catch (error) {
     console.error('Error en login:', error);
     return res.status(500).json({ mensaje: 'Error en el servidor' });
